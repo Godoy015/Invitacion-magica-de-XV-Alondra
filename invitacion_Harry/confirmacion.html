@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Asistencia</title>
+    <script>
+        if (!localStorage.getItem('invitationViewed')) {
+            window.location.href = 'invitacion.html';
+        }
+    </script>
+    <style>
+        /* Estilos específicos para el formulario */
+        body {
+            height: auto;
+            min-height: 100vh;
+            overflow-y: auto;
+            background-color: #f0f0f0; /* Color de fondo para que no se vea vacío */
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .form-section {
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .guest-fields-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .response-message {
+            margin-top: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .response-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .response-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-section">
+        <h2>Confirmar Asistencia</h2>
+        <form id="attendanceForm">
+            <div class="form-group">
+                <label for="numGuests">Número de Invitados (incluyéndote a ti):</label>
+                <input type="number" id="numGuests" name="numGuests" min="1" max="6" required>
+            </div>
+
+            <button type="button" class="btn" id="confirmAttendanceBtn">Confirmar Asistencia</button>
+            
+            <div id="guestFieldsContainer" class="guest-fields-container">
+                <button type="submit" class="btn" id="submitBtn">Enviar Confirmación</button>
+            </div>
+            
+            <div id="responseMessage" class="response-message"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('attendanceForm');
+        const numGuestsInput = document.getElementById('numGuests');
+        const confirmAttendanceBtn = document.getElementById('confirmAttendanceBtn');
+        const guestFieldsContainer = document.getElementById('guestFieldsContainer');
+        const responseMessage = document.getElementById('responseMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Ocultar el botón de envío al inicio
+        submitBtn.style.display = 'none';
+
+        confirmAttendanceBtn.addEventListener('click', function() {
+            const numGuests = parseInt(numGuestsInput.value);
+            // Agregamos una validación para asegurarnos de que el número sea <= 6
+            if (numGuests > 0 && numGuests <= 6) { 
+                // Ocultar el botón de confirmación
+                confirmAttendanceBtn.style.display = 'none';
+                // Generar y mostrar los campos para los nombres
+                generateGuestFields(numGuests);
+                guestFieldsContainer.style.display = 'block';
+                // Mostrar el botón de envío
+                submitBtn.style.display = 'block';
+            } else {
+                // Cambiamos el mensaje para que sea más claro
+                alert('El número de invitados máximo son 6');
+            }
+        });
+
+        function generateGuestFields(num) {
+            // Limpia los campos anteriores y deja solo el botón de envío
+            const existingInputs = guestFieldsContainer.querySelectorAll('div.form-group');
+            existingInputs.forEach(input => input.remove());
+
+            for (let i = 1; i <= num; i++) {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                formGroup.innerHTML = `
+                    <label for="guestName${i}">Nombre Completo del Invitado ${i}:</label>
+                    <input type="text" id="guestName${i}" name="Nombre_Invitado_${i}" required>
+                `;
+                guestFieldsContainer.insertBefore(formGroup, submitBtn); // Inserta antes del botón
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            responseMessage.style.display = 'none';
+            responseMessage.className = 'response-message';
+
+            const formData = new FormData(form);
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbxYjNzS-S5xVFH1GxZzz-JKO7p_3HDfdi7cLbSGYgL4lRbtTpgCaHmFeh9D7-QdgLGt/exec'; // ¡CAMBIA ESTA URL!
+
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    responseMessage.textContent = '¡Asistencia(s) confirmada(s) exitosamente!';
+                    responseMessage.classList.add('success');
+                    form.reset();
+                    guestFieldsContainer.style.display = 'none';
+                    submitBtn.style.display = 'none';
+                    confirmAttendanceBtn.style.display = 'block';
+                    generateGuestFields(0); // Limpia los campos generados
+                } else {
+                    responseMessage.textContent = 'Hubo un error al enviar los datos. Inténtalo de nuevo.';
+                    responseMessage.classList.add('error');
+                }
+                responseMessage.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.';
+                responseMessage.classList.add('error');
+                responseMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
