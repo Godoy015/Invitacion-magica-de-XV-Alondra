@@ -1,0 +1,317 @@
+@font-face {
+    font-family: 'MiFuenteMagica';
+    src: url('fonts/HARRP___.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.invitation-background {
+    /* Fondo para la página de invitación */
+    background-color: #f5e6b1;
+    background-image: url('imagenes/hogwarts-legacy_3840x2160_xtrafondos.com.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.confirmation-background {
+    /* Fondo para la página de confirmación */
+    background-color: #f0f0f0;
+    background-image: url('imagenes/harry-potter-daily-prophet-newspaper-wizard-poster-mono-wallpaper-p6355-17840_image.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+body {
+    /* Estilos generales del body, sin fondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: sans-serif;
+    overflow: hidden;
+}
+
+.invitation-container {
+    position: relative;
+    width: 550px;
+    height: 400px;
+    perspective: 1000px;
+    cursor: pointer;
+    z-index: 10;
+}
+.envelope {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: opacity 1s ease-in-out, visibility 1s;
+    z-index: 2;
+}
+.envelope.open {
+    opacity: 0;
+    visibility: hidden;
+}
+.flap {
+    width: 100%;
+    height: 50%;
+    background-image: url('imagenes/');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    transform-origin: top;
+    transform: rotateX(0);
+    transition: transform 1s;
+    z-index: 3;
+}
+.envelope.open .flap {
+    transform: rotateX(-180deg);
+}
+.body {
+    width: 100%;
+    height: 100%;
+    background-image: url('imagenes/solapa.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: -1;
+}
+.click-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 4;
+}
+.envelope.open .click-text {
+    opacity: 0;
+}
+.click-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    cursor: pointer;
+    transition: opacity 1s ease-in-out;
+}
+.click-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.invitation-card {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background-color: #f5e6b1;
+    border: 2px solid #a38c64;
+    padding: 20px;
+    box-sizing: border-box;
+    top: 5%;
+    left: 5%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    text-align: center;
+    z-index: 1;
+    pointer-events: none;
+    overflow-y: auto;
+    background-image: none;
+    font-family: 'MiFuenteMagica', sans-serif;
+}
+.invitation-card.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.invitation-card h1,
+.invitation-card p {
+    opacity: 0;
+    transition: opacity 2s;
+}
+#countdown.hidden, #deadline-notice.hidden {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+#countdown.visible, #deadline-notice.visible {
+    opacity: 1;
+}
+#countdown {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #5d0000;
+    margin-top: 15px;
+}
+#deadline-notice {
+    font-size: 1rem;
+    color: #8b0000;
+    margin-top: 15px;
+    font-weight: bold;
+}
+.rsvp-button {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 1s ease-in-out, transform 0.2s, box-shadow 0.2s;
+    opacity: 0;
+    pointer-events: none;
+}
+.rsvp-button.visible-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+.rsvp-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+.rsvp-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Estilos para el formulario de confirmación */
+.form-section {
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f5e6b1;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+    color: #000;
+}
+.form-section h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+.btn.back-btn {
+    background-color: #6c757d;
+}
+.btn:hover {
+    background-color: #45a049;
+}
+.btn.back-btn:hover {
+    background-color: #5a6268;
+}
+.response-message {
+    margin-top: 15px;
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+    display: none;
+}
+.response-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.response-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+.validation-error-message {
+    color: #e3342f;
+    font-size: 0.9em;
+    margin-top: 5px;
+    text-align: center;
+    display: none;
+}
+.success-message-after-submit {
+    display: none;
+    margin-top: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #e6ffed;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.success-message-after-submit h3 {
+    font-size: 1.8rem;
+    color: #28a745;
+    margin-bottom: 15px;
+}
+.success-message-after-submit p {
+    color: #000;
+}
+.success-message-after-submit img {
+    max-width: 150px;
+    height: auto;
+    margin-top: 20px;
+    animation: bounce 0.8s infinite alternate;
+}
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+/* Estilos para la tabla de asistencia */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f5e6b1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.attendance-table th, .attendance-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #a38c64;
+}
+.attendance-table th {
+    background-color: #a38c64;
+    color: white;
+    font-weight: bold;
+}
+.attendance-table tr:last-child td {
+    border-bottom: none;
+}
