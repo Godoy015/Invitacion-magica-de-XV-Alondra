@@ -141,11 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             generateGuestFields(numGuests);
             
+            // --- CÓDIGO TEMPORALMENTE DESACTIVADO PARA PRUEBAS ---
+            /*
             // Lógica para bloquear futuros envíos.
             if (localStorage.getItem('formSubmitted') === 'true') {
                 if (formContainer) formContainer.style.display = 'none';
                 if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
             }
+            */
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
