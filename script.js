@@ -229,10 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (backToInviteBtn) {
-        backToInviteBtn.addEventListener('click', () => {
-            window.location.href = './invitacion.html';
-        });
-    }
+    backToInviteBtn.addEventListener('click', () => {
+        // Usamos history.back() para regresar en el historial del navegador.
+        // Esto es más seguro y fiable que usar una ruta de archivo.
+        history.back();
+    });
+}
 
     if (clearStorageBtn) {
         clearStorageBtn.addEventListener('click', () => {

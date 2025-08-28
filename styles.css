@@ -65,15 +65,12 @@ body {
 .envelope.open .flap {
     transform: rotateX(-180deg);
 }
-.body {
-    width: 100%;
-    height: 100%;
-    background-image: url('imagenes/solapa.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute;
-    z-index: -1;
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Permitimos el desplazamiento vertical */
+    overflow-y: auto; 
 }
 .click-text {
     position: absolute;
@@ -104,7 +101,16 @@ body {
     pointer-events: none;
 }
 .invitation-card {
-    position: absolute;
+    /* Eliminamos las propiedades que causaban el "movimiento" */
+    /* position: absolute; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+
+    /* Centramos la tarjeta horizontalmente */
+    margin: auto;
+
+    /* Mantenemos el resto del código como está */
     width: 350px;
     height: 500px;
     background-image: url('imagenes/descarga.jpeg'); 
@@ -116,9 +122,6 @@ body {
     border: 2px solid #a38c64;
     padding: 20px;
     box-sizing: border-box;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     opacity: 0;
     transition: opacity 1s ease-in-out;
     text-align: center;
