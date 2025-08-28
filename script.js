@@ -150,6 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                // Deshabilitar el botón y mostrar un mensaje de carga
+                const submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Enviando...';
+                }
+                
                 if (responseMessage) {
                     responseMessage.style.display = 'none';
                     responseMessage.className = 'response-message';
@@ -168,6 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         responseMessage.textContent = 'Por favor, llena todos los campos de nombre.';
                         responseMessage.classList.add('error');
                         responseMessage.style.display = 'block';
+                    }
+                    // Volver a habilitar el botón en caso de error de validación
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Confirmar Asistencia';
                     }
                     return;
                 }
@@ -201,6 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             responseMessage.style.display = 'block';
                         }
                     }
+                    // En ambos casos (éxito o error), volver a habilitar el botón
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Confirmar Asistencia';
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -208,6 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.';
                         responseMessage.classList.add('error');
                         responseMessage.style.display = 'block';
+                    }
+                    // En caso de error de conexión, volver a habilitar el botón
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Confirmar Asistencia';
                     }
                 });
             });
