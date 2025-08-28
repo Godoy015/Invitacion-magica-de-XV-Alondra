@@ -86,31 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // CAMBIO IMPORTANTE: El botón de RSVP ahora envía a una URL con un parámetro
+    // CAMBIO CRUCIAL: El botón de RSVP ahora lee el parámetro de la URL
+    // Esto asegura que el botón envíe a la confirmación con el número correcto de invitados.
     if (rsvpButton) {
         rsvpButton.addEventListener('click', () => {
             if (!rsvpButton.disabled) {
-                // Esta línea es CRUCIAL para que el formulario funcione.
+                const urlParams = new URLSearchParams(window.location.search);
+                const numGuestsFromUrl = urlParams.get('invitados'); 
+                
                 localStorage.setItem('invitationViewed', 'true');
                 
-                // --- AQUI DEBES ELEGIR LA OPCIÓN Y DESCOMENTAR LA LÍNEA ---
-                // Para 1 invitado (predeterminado):
-                window.location.href = "confirmacion.html?invitados=1";
-
-                // Para 2 invitados:
-                window.location.href = "confirmacion.html?invitados=2";
-
-                // Para 3 invitados:
-                window.location.href = "confirmacion.html?invitados=3";
-
-                // Para 4 invitados:
-                window.location.href = "confirmacion.html?invitados=4";
-
-                // Para 5 invitados:
-                window.location.href = "confirmacion.html?invitados=5";
-
-                // Para 6 invitados:
-                window.location.href = "confirmacion.html?invitados=6";
+                // Redirigimos a la página de confirmación con el número de invitados de la URL
+                window.location.href = `confirmacion.html?invitados=${numGuestsFromUrl}`;
             }
         });
     }
@@ -154,11 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             generateGuestFields(numGuests);
             
-            // Lógica para bloquear futuros envíos. (Vuelve a estar activada)
-           // if (localStorage.getItem('formSubmitted') === 'true') {
-             //   if (formContainer) formContainer.style.display = 'none';
-               // if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-            //}
+            // Lógica para bloquear futuros envíos.
+            if (localStorage.getItem('formSubmitted') === 'true') {
+                if (formContainer) formContainer.style.display = 'none';
+                if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
+            }
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
