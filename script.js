@@ -86,8 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // CAMBIO CRUCIAL: El botón de RSVP ahora lee el parámetro de la URL
-    // Esto asegura que el botón envíe a la confirmación con el número correcto de invitados.
     if (rsvpButton) {
         rsvpButton.addEventListener('click', () => {
             if (!rsvpButton.disabled) {
@@ -96,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 localStorage.setItem('invitationViewed', 'true');
                 
-                // Redirigimos a la página de confirmación con el número de invitados de la URL
                 window.location.href = `confirmacion.html?invitados=${numGuestsFromUrl}`;
             }
         });
@@ -141,19 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             generateGuestFields(numGuests);
             
-            // --- CÓDIGO TEMPORALMENTE DESACTIVADO PARA PRUEBAS ---
-            /*
             // Lógica para bloquear futuros envíos.
-            if (localStorage.getItem('formSubmitted') === 'true') {
-                if (formContainer) formContainer.style.display = 'none';
-                if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-            }
-            */
+            //if (localStorage.getItem('formSubmitted') === 'true') {
+              //  if (formContainer) formContainer.style.display = 'none';
+               // if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
+            //}
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Deshabilitar el botón y mostrar un mensaje de carga
                 const submitButton = form.querySelector('button[type="submit"]');
                 if (submitButton) {
                     submitButton.disabled = true;
@@ -179,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         responseMessage.classList.add('error');
                         responseMessage.style.display = 'block';
                     }
-                    // Volver a habilitar el botón en caso de error de validación
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = 'Confirmar Asistencia';
@@ -203,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             finalSuccessMessage.style.display = 'block';
                             if (backToInviteBtn) backToInviteBtn.style.display = 'block';
                         }
-                        // Esta línea es CRUCIAL para bloquear futuros envíos.
                         localStorage.setItem('formSubmitted', 'true');
                         if (responseMessage) {
                             responseMessage.textContent = '¡Asistencia(s) confirmada(s) exitosamente! Gracias por tu respuesta.';
@@ -216,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             responseMessage.style.display = 'block';
                         }
                     }
-                    // En ambos casos (éxito o error), volver a habilitar el botón
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = 'Confirmar Asistencia';
@@ -229,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         responseMessage.classList.add('error');
                         responseMessage.style.display = 'block';
                     }
-                    // En caso de error de conexión, volver a habilitar el botón
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = 'Confirmar Asistencia';
@@ -245,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Botón para borrar el registro de envíos para pruebas
     if (clearStorageBtn) {
         clearStorageBtn.addEventListener('click', () => {
             localStorage.removeItem('formSubmitted');
