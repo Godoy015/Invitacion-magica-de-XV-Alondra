@@ -98,10 +98,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = "confirmacion.html?invitados=1";
 
                 // Para 2 invitados:
-                // window.location.href = "confirmacion.html?invitados=2";
+                window.location.href = "confirmacion.html?invitados=2";
 
                 // Para 3 invitados:
-                // window.location.href = "confirmacion.html?invitados=3";
+                window.location.href = "confirmacion.html?invitados=3";
+
+                // Para 4 invitados:
+                window.location.href = "confirmacion.html?invitados=4";
+
+                // Para 5 invitados:
+                window.location.href = "confirmacion.html?invitados=5";
+
+                // Para 6 invitados:
+                window.location.href = "confirmacion.html?invitados=6";
             }
         });
     }
