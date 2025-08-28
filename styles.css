@@ -84,7 +84,7 @@ body {
     width: 100%;
     height: 50%;
     /* REVISAR: Aquí no tienes ninguna imagen. Asegúrate de poner una URL válida. */
-    background-image: url('imagenes/solapa.jpg'); /* Ejemplo: asegúrate de que la ruta sea correcta */
+    background-image: url(''); /* Ejemplo: asegúrate de que la ruta sea correcta */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -98,15 +98,14 @@ body {
 .envelope.open .flap {
     transform: rotateX(-180deg);
 }
-.body {
-    width: 100%;
-    height: 100%;
-    background-image: url('imagenes/solapa.jpg'); /* Ejemplo: asegúrate de que la ruta sea correcta */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute;
-    z-index: -1;
+body {
+    /* Centrado con Flexbox para que funcione en todos los dispositivos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asegura que ocupe la altura completa del viewport */
+    font-family: sans-serif;
+    overflow-x: hidden; /* Evita el scroll horizontal */
 }
 .click-text {
     position: absolute;
