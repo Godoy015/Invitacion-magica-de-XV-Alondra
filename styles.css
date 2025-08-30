@@ -6,10 +6,9 @@
 }
 
 /* ------------------------------------- */
-/* ESTILOS GENERALES Y CENTRADO CON FLEXBOX  */
+/* ESTILOS GENERALES Y CENTRADO CON FLEXBOX  */
 /* ------------------------------------- */
 
-/* Usamos Flexbox en el body para centrar todo el contenido */
 body {
     display: flex;
     justify-content: center;
@@ -20,10 +19,6 @@ body {
     margin: 0;
     padding: 0;
 }
-
-/* ------------------------------------- */
-/* FONDOS PARA AMBAS PÁGINAS             */
-/* ------------------------------------- */
 
 .invitation-background {
     background-color: #f5e6b1;
@@ -43,10 +38,6 @@ body {
     background-attachment: fixed;
 }
 
-/* ------------------------------------- */
-/* CONTENEDOR DE LA INVITACIÓN (SOBRE + CARTA) */
-/* ------------------------------------- */
-
 .invitation-container {
     position: relative;
     width: 550px;
@@ -59,16 +50,12 @@ body {
     align-items: center;
 }
 
-/* ------------------------------------- */
-/* ESTILOS DEL SOBRE                     */
-/* ------------------------------------- */
-
 .envelope {
     width: 100%;
     height: 100%;
     position: absolute;
     transition: opacity 1s ease-in-out, visibility 1s;
-    z-index: 1; /* El sobre está por debajo de la carta inicialmente */
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,7 +93,7 @@ body {
 }
 .click-text {
     position: absolute;
-    top: 65%; /* Ajusta este valor si necesitas que baje más o menos */
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #ffffff;
@@ -133,35 +120,24 @@ body {
     pointer-events: none;
 }
 
-/* ------------------------------------- */
-/* ESTILOS DE LA CARTA DE INVITACIÓN     */
-/* ------------------------------------- */
-
 .invitation-card {
-    width: 350px; 
+    width: 350px;
     height: 500px;
-    
-    background-image: url('imagenes/descarga.jpeg'); 
-    background-size: contain; 
+    background-image: url('imagenes/descarga.jpeg');
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
-    background-color: #f5e6b1; 
-    
+    background-color: #f5e6b1;
     border: 2px solid #a38c64;
     padding: 20px;
     box-sizing: border-box;
-    
     opacity: 0;
     transition: opacity 1s ease-in-out;
     text-align: center;
-    
-    /* Agregamos position: relative para que z-index funcione */
     position: relative;
-    z-index: 2; /* Asegura que la carta esté encima del sobre */
-    
+    z-index: 2;
     pointer-events: none;
-    overflow-y: auto;
     font-family: 'MiFuenteMagica', sans-serif;
 }
 .invitation-card.visible {
@@ -172,6 +148,8 @@ body {
 .invitation-card p {
     opacity: 0;
     transition: opacity 2s;
+    line-height: 1.1;
+    text-align: center;
 }
 #countdown.hidden, #deadline-notice.hidden {
     opacity: 0;
@@ -221,16 +199,12 @@ body {
     box-shadow: none;
 }
 
-/* ------------------------------------- */
-/* ESTILOS DEL FORMULARIO DE CONFIRMACIÓN */
-/* ------------------------------------- */
-
 .form-section {
     width: 100%;
     max-width: 500px;
     padding: 30px;
     background-image: url('imagenes/descarga.jpeg');
-    background-size: contain; 
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     background-color: #f5e6b1;
@@ -360,11 +334,10 @@ input[type="number"] {
 .attendance-table tr:last-child td {
     border-bottom: none;
 }
-/* Estilo específico para el nombre de Alondra */
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: #2f2447; /* Este es el color morado oscuro que te gusta */
+    color: #2f2447;
     display: block;
     text-align: center;
     line-height: 1.2;
