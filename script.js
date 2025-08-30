@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundMusic = document.getElementById('background-music');
 
     const invitationText = {
-        title: "ESTAS CORDIALMENTE INVITADO/A",
-        content: "Acompáñanos a celebrar los Quince Años de Alondra Torres Godoy en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-        details: "Fecha: Harry Potter \nHora: [Hora]\nLugar: [Lugar]\n¡Se requiere varita!"
-    };
+    title: "ESTAS CORDIALMENTE INVITADO/A",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    details: "Fecha: Harry Potter <br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
+};
 
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
     const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function typewriterEffect(element, text, i, callback) {
         if (i < text.length) {
-            element.textContent += text.charAt(i);
+            element.innerHTML += text.charAt(i);
             element.style.opacity = 1;
             setTimeout(() => typewriterEffect(element, text, i + 1, callback), 50);
         } else {

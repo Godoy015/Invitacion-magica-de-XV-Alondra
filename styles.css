@@ -360,3 +360,9 @@ input[type="number"] {
 .attendance-table tr:last-child td {
     border-bottom: none;
 }
+/* Nuevo estilo para el nombre */
+.invitation-card span {
+    font-size: 1.4em; /* Puedes ajustar este tamaño */
+    font-weight: bold;
+    color: #4b382d; /* Puedes elegir el color que prefieras */
+}
