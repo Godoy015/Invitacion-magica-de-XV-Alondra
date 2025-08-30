@@ -361,8 +361,11 @@ input[type="number"] {
     border-bottom: none;
 }
 /* Nuevo estilo para el nombre */
+/* Nuevo estilo para el nombre */
 .invitation-card span {
-    font-size: 1.4em; /* Puedes ajustar este tamaño */
+    font-size: 1.4em;
     font-weight: bold;
-    color: #4b382d; /* Puedes elegir el color que prefieras */
+    color: #4b382d;
+    display: block;
+    text-align: center;
 }
