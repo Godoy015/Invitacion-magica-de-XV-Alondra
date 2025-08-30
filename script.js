@@ -135,10 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lógica para la página de confirmación (confirmacion.html)
     if (confirmationPageElements.form) {
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwiqV7_ID8-Jm4XOA4KN1cCffYsOik4Kny0KeWHgmkRqM1HyTJn_X_yCMZQb9ThASE/exec';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzus5XwYqNpaQvJ8WwGx516YwMtHWukZ61UNT6UgUv1ZitfxAMeYAyLVyoNlwcRyWoH/exec';
         
-        // Función para enviar el estado de asistencia
-        function sendAttendanceStatus(status) {
+        // Función para enviar el estado de asistencia, ahora acepta el botón presionado
+        function sendAttendanceStatus(status, clickedButton) {
             if (!uniqueId) {
                 if (confirmationPageElements.responseMessage) {
                     confirmationPageElements.responseMessage.textContent = "ID de invitado no encontrado. Por favor, use el enlace de su invitación.";
@@ -147,6 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     confirmationPageElements.responseMessage.classList.add('error');
                 }
                 return;
+            }
+
+            // Deshabilita el botón y muestra "Enviando..."
+            if (clickedButton) {
+                clickedButton.disabled = true;
+                clickedButton.textContent = 'Enviando...';
             }
 
             const formData = new FormData();
@@ -165,7 +171,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         confirmationPageElements.responseMessage.style.display = 'block';
                         confirmationPageElements.responseMessage.classList.remove('error');
                         confirmationPageElements.responseMessage.classList.add('success');
-                        confirmationPageElements.extraButtonsSection.style.display = 'none'; // Oculta los botones después de presionar
+                        
+                        // Oculta los botones y el formulario después de la confirmación
+                        if (confirmationPageElements.extraButtonsSection) confirmationPageElements.extraButtonsSection.style.display = 'none';
+                        if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
+                        
+                        // Establece el flag para que el botón de la invitación se bloquee
+                        localStorage.setItem('formSubmitted', 'true');
+                        
+                        // Muestra el mensaje final
+                        if (confirmationPageElements.finalSuccessMessage) {
+                            confirmationPageElements.finalSuccessMessage.style.display = 'block';
+                        }
                     }
                 } else {
                     if (confirmationPageElements.responseMessage) {
@@ -173,6 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         confirmationPageElements.responseMessage.style.display = 'block';
                         confirmationPageElements.responseMessage.classList.remove('success');
                         confirmationPageElements.responseMessage.classList.add('error');
+                    }
+                    if (clickedButton) {
+                        clickedButton.disabled = false;
+                        clickedButton.textContent = status === 'confirmed' ? '100% Confirmado' : 'Estoy en Veremos';
                     }
                 }
             })
@@ -184,18 +205,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     confirmationPageElements.responseMessage.classList.remove('success');
                     confirmationPageElements.responseMessage.classList.add('error');
                 }
+                if (clickedButton) {
+                    clickedButton.disabled = false;
+                    clickedButton.textContent = status === 'confirmed' ? '100% Confirmado' : 'Estoy en Veremos';
+                }
             });
         }
 
-        // Manejar el clic de los nuevos botones
+        // Manejar el clic de los nuevos botones, ahora pasando el botón como argumento
         if (confirmationPageElements.confirmButtonExtra) {
             confirmationPageElements.confirmButtonExtra.addEventListener('click', () => {
-                sendAttendanceStatus('confirmed');
+                sendAttendanceStatus('confirmed', confirmationPageElements.confirmButtonExtra);
             });
         }
         if (confirmationPageElements.maybeButtonExtra) {
             confirmationPageElements.maybeButtonExtra.addEventListener('click', () => {
-                sendAttendanceStatus('maybe');
+                sendAttendanceStatus('maybe', confirmationPageElements.maybeButtonExtra);
             });
         }
 
@@ -214,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const status = data.status;
                     
                     if (status === 'confirmed') {
-                        // El invitado ya confirmó, solo mostramos el mensaje de éxito final
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
                         if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'none';
                         if (confirmationPageElements.finalSuccessMessage) {
@@ -223,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
                         return;
                     } else if (status === 'maybe') {
-                        // El invitado seleccionó 'En Veremos', mostramos un mensaje de estado
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
                         if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'block';
                         if (confirmationPageElements.guestCountInfo) confirmationPageElements.guestCountInfo.textContent = 'Gracias por avisarnos. Tu estado de asistencia está en "Veremos".';
@@ -231,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    // Si no ha confirmado, mostramos el formulario con el número de invitados
                     if (confirmationPageElements.guestCountInfo) {
                         confirmationPageElements.guestCountInfo.textContent = `Tienes ${numGuests} pase(s) de entrada. Por favor, registra el/los nombre(s):`;
                     }
@@ -287,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         confirmationPageElements.finalSuccessMessage.style.display = 'block';
                                         if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
                                     }
+                                    localStorage.setItem('formSubmitted', 'true');
                                 } else {
                                     if (confirmationPageElements.responseMessage) {
                                         confirmationPageElements.responseMessage.textContent = 'Hubo un error al enviar los datos. Inténtalo de nuevo.';
