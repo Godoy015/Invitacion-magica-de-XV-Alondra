@@ -14,18 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
         title: "ESTAS CORDIALMENTE INVITADO/A",
-        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-        details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡se requiere Varita!"
+        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>En una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+        details: "Fecha: 27 de Diciembre del 2025 <br>Hora: A partir de las 18 Hrs<br>Lugar: [Lugar]<br>"
     };
 
-    const partyDate = new Date("November 22, 2025 23:59:59").getTime();
-    const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
+    const partyDate = new Date("December 27, 2025 23:59:59").getTime();
+    const deadlineDate = new Date("November 30, 2025 23:59:59").getTime();
     let countdownInterval;
 
     if (localStorage.getItem('formSubmitted') === 'true') {
         if (rsvpButton) {
             rsvpButton.disabled = true;
-            rsvpButton.textContent = "¡Ya te has registrado!";
+            rsvpButton.textContent = "¡Ya estas registrado!";
             rsvpButton.classList.add('disabled-button'); 
         }
     }
@@ -93,16 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(countdownInterval);
                 countdownElement.textContent = "¡Es hoy la fiesta!";
             } else {
-                countdownElement.textContent = `Faltan: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                countdownElement.textContent = `Faltan: ${days}d ${hours}h ${minutes}m ${seconds}s para el evento`;
             }
             if (now >= deadlineDate) {
                 if(rsvpButton) {
                     rsvpButton.disabled = true;
                     rsvpButton.textContent = "Registro Cerrado";
                 }
-                deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025 (Expirada)";
+                deadlineNotice.textContent = "Fecha límite de confirmación: (Expirada)";
             } else {
-                deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025";
+                deadlineNotice.textContent = "Fecha límite de confirmación: 30 de Noviembre del 2025";
             }
         }, 1000);
     }
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rsvpButton.textContent = "Registro Cerrado";
         }
         if (deadlineNotice) {
-            deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025 (Expirada)";
+            deadlineNotice.textContent = "Fecha límite de confirmación: <br> 20 de noviembre de 2025 (Expirada)";
         }
     }
 
