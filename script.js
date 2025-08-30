@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
     title: "ESTAS CORDIALMENTE INVITADO/A",
-    content: "Acompáñanos a celebrar los XV Años de:<br><span style='display: block; text-align: center; margin-top: 15px; line-height: 1.1; color: #4ecfc9ff; font-size: 1.6em;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span style='display: block; text-align: center; margin-top: 5px; line-height: 1.1; color: #43b318ff; font-size: 2em;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
     details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
 };
 
