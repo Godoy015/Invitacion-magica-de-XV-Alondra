@@ -362,7 +362,7 @@ input[type="number"] {
 }
 /* Estilo específico para el nombre de Alondra */
 #alondra-name {
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     color: #2f2447; /* Este es el color que quieres, morado oscuro */
     display: block;
