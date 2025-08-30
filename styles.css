@@ -360,16 +360,6 @@ input[type="number"] {
 .attendance-table tr:last-child td {
     border-bottom: none;
 }
-/* Nuevo estilo para el nombre */
-/* Nuevo estilo para el nombre */
-/* Nuevo estilo para el nombre */
-.invitation-card span {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #e71bdd;
-    display: block;
-    text-align: center;
-}
 /* Estilo específico para el nombre de Alondra */
 #alondra-name {
     font-size: 1.4em;
