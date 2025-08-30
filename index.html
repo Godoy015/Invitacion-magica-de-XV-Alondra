@@ -6,7 +6,7 @@
     <title>Invitación Mágica de XV Años</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="invitation-background">
+<body class="invitation-background" onload="localStorage.removeItem('invitationViewed');">
     <div class="invitation-container">
         <div class="envelope">
             <div class="flap"></div>
@@ -23,7 +23,7 @@
             <button class="rsvp-button">Confirmar Asistencia</button>
         </div>
     </div>
-    
+
     <audio id="background-music" src="musica/Lumos_ Hedwigs Theme.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
