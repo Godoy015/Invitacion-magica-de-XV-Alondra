@@ -366,7 +366,17 @@ input[type="number"] {
 .invitation-card span {
     font-size: 1.4em;
     font-weight: bold;
-    color: #1ea752;
+    color: #e71bdd;
     display: block;
     text-align: center;
+}
+/* Estilo específico para el nombre de Alondra */
+#alondra-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ddc913; /* Este es el color azul que habías usado */
+    display: block;
+    text-align: center;
+    line-height: 1.2;
+    margin-top: 50px; /* Puedes ajustar este valor para bajar o subir el nombre */
 }
