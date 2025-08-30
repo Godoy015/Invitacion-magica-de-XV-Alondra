@@ -204,11 +204,9 @@ body {
     width: 100%;
     max-width: 500px;
     padding: 30px;
-    background-image: url('imagenes/descarga.jpeg');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #f5e6b1;
+    /* Cambio aquí: se elimina la imagen de fondo */
+    background-image: none;
+    background-color: #FFFFFF; /* Se agrega un color de fondo sólido */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -255,6 +253,8 @@ input[type="number"] {
 }
 .btn.back-btn {
     background-color: #6c757d;
+    /* Cambio aquí: Se agrega un margen superior para separarlo */
+    margin-top: 20px;
 }
 .btn:hover {
     background-color: #45a049;
@@ -339,7 +339,7 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: rgb(37, 120, 126);
+    color: rgb(20, 77, 85);
     display: block;
     text-align: center;
     line-height: 1.2;
