@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
     title: "ESTAS CORDIALMENTE INVITADO/A",
-    content: "Acompáñanos a celebrar los XV Años de:<br><span>Alondra Torres Godoy</span> en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-    details: "Fecha: Harry Potter <br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
+    content: "Acompáñanos a celebrar los XV Años de:<br><span>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
 };
 
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
@@ -75,16 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function typewriterEffect(element, text, i, callback) {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            element.style.opacity = 1;
-            setTimeout(() => typewriterEffect(element, text, i + 1, callback), 50);
-        } else {
-            if (callback) {
-                callback();
-            }
+    if (i < text.length) {
+        element.innerHTML += text.charAt(i);
+        element.style.opacity = 1;
+        setTimeout(() => typewriterEffect(element, text, i + 1, callback), 50);
+    } else {
+        // Al final, nos aseguramos de que el contenido final sea el correcto
+        element.innerHTML = text; 
+        if (callback) {
+            callback();
         }
     }
+}
     
     if (rsvpButton) {
         rsvpButton.addEventListener('click', () => {
