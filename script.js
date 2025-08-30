@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
     title: "ESTAS CORDIALMENTE INVITADO/A",
-    content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name' style='margin-top: 30px;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span style='display: block; text-align: center; margin-top: 15px; line-height: 1.1; color: #4ecfc9ff; font-size: 1.6em;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
     details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
 };
 
@@ -143,10 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
             generateGuestFields(numGuests);
             
             // Lógica para bloquear futuros envíos.
-            //if (localStorage.getItem('formSubmitted') === 'true') {
-              //  if (formContainer) formContainer.style.display = 'none';
-               // if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-            //}
+            if (localStorage.getItem('formSubmitted') === 'true') {
+                if (formContainer) formContainer.style.display = 'none';
+                if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
+            }
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -232,13 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (backToInviteBtn) {
-    backToInviteBtn.addEventListener('click', () => {
+    //if (backToInviteBtn) {
+    //backToInviteBtn.addEventListener('click', () => {
         // Usamos history.back() para regresar en el historial del navegador.
         // Esto es más seguro y fiable que usar una ruta de archivo.
-        history.back();
-    });
-}
+      //  history.back();
+    //});
+//}
 
     if (clearStorageBtn) {
         clearStorageBtn.addEventListener('click', () => {
