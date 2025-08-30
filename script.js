@@ -14,9 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
     title: "ESTAS CORDIALMENTE INVITADO/A",
-    content: "Acompáñanos a celebrar los XV Años de:",
-    alondraName: "Alondra Torres Godoy",
-    content2: "en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span style='display: block; text-align: center;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
     details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
 };
 
@@ -63,42 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
             clickOverlay.classList.add('hidden');
             envelope.classList.add('open');
             setTimeout(() => {
-                invitationCard.classList.add('visible');
-                typewriterEffect(invitationTitle, invitationText.title, 0, () => {
-                    // Dibuja la primera parte del contenido
-                    invitationContent.innerHTML = invitationText.content;
-
-                    // Crea y dibuja el nombre de Alondra con el estilo
-                    const alondraNameSpan = document.createElement('span');
-                    alondraNameSpan.textContent = invitationText.alondraName;
-                    alondraNameSpan.style.cssText = `
-                        display: block;
-                        text-align: center;
-                        font-size: 1.4em;
-                        font-weight: bold;
-                        color: #334ddf;
-                        margin-top: 50px;
-                        line-height: 1.2;
-                    `;
-                    invitationContent.appendChild(alondraNameSpan);
-
-                    // Dibuja la segunda parte del contenido
-                    const content2Span = document.createElement('span');
-                    content2Span.textContent = invitationText.content2;
-                    content2Span.style.cssText = `
-                        display: block;
-                        text-align: center;
-                        line-height: 1.2;
-                    `;
-                    invitationContent.appendChild(content2Span);
-
-                    invitationDetails.innerHTML = invitationText.details;
-                    invitationDetails.style.opacity = 1;
-
-                    startCountdown();
-                    rsvpButton.classList.add('visible-button');
-                });
-            }, 1000);
+    invitationCard.classList.add('visible');
+    typewriterEffect(invitationTitle, invitationText.title, 0, () => {
+        invitationContent.innerHTML = invitationText.content;
+        invitationContent.style.opacity = 1;
+        
+        invitationDetails.innerHTML = invitationText.details;
+        invitationDetails.style.opacity = 1;
+        
+        startCountdown();
+        rsvpButton.classList.add('visible-button');
+    });
+}, 1000);
         }, { once: true });
     }
 
