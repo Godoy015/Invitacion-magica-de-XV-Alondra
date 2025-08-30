@@ -340,7 +340,7 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: #d621fa; 
+    color: #0c1f8b; 
     display: block;
     text-align: center;
     line-height: 1.2;
@@ -375,5 +375,5 @@ input[type="number"] {
 /* Estilo para el aviso de fecha límite */
 #deadline-notice {
     margin-top: 15px;
-    color: #307a0d; /* Dorado para el aviso de fecha límite */
+    color: #d4a421; /* Dorado para el aviso de fecha límite */
 }
