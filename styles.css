@@ -368,5 +368,5 @@ input[type="number"] {
     display: block;
     text-align: center;
     line-height: 1.2;
-    margin-top: 50px; /* Puedes ajustar este valor para bajar o subir el nombre */
+    margin-top: 30px; /* Puedes ajustar este valor para bajar o subir el nombre */
 }
