@@ -18,6 +18,8 @@ body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    /* Cambio clave: Apila los elementos verticalmente y los centra */
+    flex-direction: column;
 }
 
 .invitation-background {
@@ -204,9 +206,8 @@ body {
     width: 100%;
     max-width: 500px;
     padding: 30px;
-    /* Cambio aquí: se elimina la imagen de fondo */
     background-image: none;
-    background-color: #FFFFFF; /* Se agrega un color de fondo sólido */
+    background-color: #FFFFFF;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -253,8 +254,9 @@ input[type="number"] {
 }
 .btn.back-btn {
     background-color: #6c757d;
-    /* Cambio aquí: Se agrega un margen superior para separarlo */
+    /* Se elimina el margen y se deja que el Flexbox del body lo posicione */
     margin-top: 20px;
+    max-width: 500px;
 }
 .btn:hover {
     background-color: #45a049;
@@ -294,6 +296,7 @@ input[type="number"] {
     background-color: #e6ffed;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
+    max-width: 500px;
 }
 .success-message-after-submit h3 {
     font-size: 1.8rem;
@@ -339,7 +342,7 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: rgb(20, 77, 85);
+    color: #8718b3ff;
     display: block;
     text-align: center;
     line-height: 1.2;
