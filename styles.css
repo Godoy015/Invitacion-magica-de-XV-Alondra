@@ -120,6 +120,7 @@ body {
     pointer-events: none;
 }
 
+/* La tarjeta de invitación se vuelve a su estado original */
 .invitation-card {
     width: 350px;
     height: 500px;
@@ -138,10 +139,7 @@ body {
     z-index: 2;
     pointer-events: none;
     font-family: 'MiFuenteMagica', sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    /* Eliminamos el flexbox que causaba problemas de espaciado */
 }
 .invitation-card.visible {
     opacity: 1;
@@ -157,15 +155,7 @@ body {
     padding: 0 5px;
     font-size: 1.1em;
 }
-.invitation-card h1 {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-}
-.invitation-card .content span {
-    display: block;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
+
 #countdown, #deadline-notice {
     margin-top: 15px;
 }
