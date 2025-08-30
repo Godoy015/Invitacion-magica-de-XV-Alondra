@@ -334,11 +334,10 @@ input[type="number"] {
     border-bottom: none;
 }
 
-/* ESTILO DEL NOMBRE DE ALONDRA PARA QUE SE VEA COMO EN LA IMAGEN */
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: #7dcc23;
+    color: rgb(240, 168, 14);
     display: block;
     text-align: center;
     line-height: 1.2;

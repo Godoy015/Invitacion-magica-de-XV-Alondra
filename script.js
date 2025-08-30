@@ -24,10 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startCountdown() {
         if (!countdownElement || !deadlineNotice) return;
-        countdownElement.classList.remove('hidden');
-        countdownElement.classList.add('visible');
-        deadlineNotice.classList.remove('hidden');
-        deadlineNotice.classList.add('visible');
+        countdownElement.style.opacity = 1;
+        deadlineNotice.style.opacity = 1;
         countdownInterval = setInterval(() => {
             const now = new Date().getTime();
             const distance = partyDate - now;
@@ -58,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (backgroundMusic) {
                 backgroundMusic.play().catch(e => console.log("La reproducción automática fue bloqueada:", e));
             }
-            clickOverlay.classList.add('hidden');
+            clickOverlay.style.display = 'none';
             envelope.classList.add('open');
             setTimeout(() => {
                 invitationCard.classList.add('visible');
@@ -143,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('formSubmitted') === 'true') {
                 if (formContainer) formContainer.style.display = 'none';
                 if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-                // Asegurarse de que el botón de regresar no se muestre si ya se ha enviado
                 if (backToInviteBtn) backToInviteBtn.style.display = 'none'; 
             }
 
