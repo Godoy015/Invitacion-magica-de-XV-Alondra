@@ -364,9 +364,8 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: #5102fd; /* Este es el color que quieres, morado oscuro */
+    color: #2f2447; /* Este es el color morado oscuro que te gusta */
     display: block;
     text-align: center;
     line-height: 1.2;
-    margin-top: 30px; /* Puedes ajustar este valor para bajar o subir el nombre */
 }
