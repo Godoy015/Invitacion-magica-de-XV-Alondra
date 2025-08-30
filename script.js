@@ -13,10 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundMusic = document.getElementById('background-music');
 
     const invitationText = {
-        title: "ESTAS CORDIALMENTE INVITADO/A",
-        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name' style='color: #8718b3ff; font-size: 2em;'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-        details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
-    };
+    title: "ESTAS CORDIALMENTE INVITADO/A",
+    // Eliminamos el margin-top y el display block del style, ahora se controlará por CSS para el espaciado
+    content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name' style='color: #8718b3ff; font-size: 2em;'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
+};
 
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
     const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
