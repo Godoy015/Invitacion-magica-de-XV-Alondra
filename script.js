@@ -137,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirmationPageElements.form) {
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwl4iiAUxuTYSTer_XiiTtPwf_DeA0lFiEP_zMVf1OWD1D2QF803to1n6Vh0z6qbzKy/exec';
         
-        // Función para enviar el estado de asistencia, ahora acepta el botón presionado
         function sendAttendanceStatus(status, clickedButton) {
             if (!uniqueId) {
                 if (confirmationPageElements.responseMessage) {
@@ -149,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Deshabilita el botón y muestra "Enviando..."
             if (clickedButton) {
                 clickedButton.disabled = true;
                 clickedButton.textContent = 'Enviando...';
@@ -176,20 +174,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (confirmationPageElements.extraButtonsSection) confirmationPageElements.extraButtonsSection.style.display = 'none';
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
                         
+                        // Muestra el mensaje de éxito final
+                        if (confirmationPageElements.finalSuccessMessage) {
+                            confirmationPageElements.finalSuccessMessage.style.display = 'block';
+                            if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
+                        }
+                        
                         // Establece el flag para que el botón de la invitación se bloquee
                         localStorage.setItem('formSubmitted', 'true');
                         
-                        // Muestra el mensaje final
-                        if (confirmationPageElements.finalSuccessMessage) {
-                            confirmationPageElements.finalSuccessMessage.style.display = 'block';
+                    } else {
+                        if (confirmationPageElements.responseMessage) {
+                            confirmationPageElements.responseMessage.textContent = 'Hubo un error al actualizar tu estado. Inténtalo de nuevo.';
+                            confirmationPageElements.responseMessage.style.display = 'block';
+                            confirmationPageElements.responseMessage.classList.remove('success');
+                            confirmationPageElements.responseMessage.classList.add('error');
                         }
-                    }
-                } else {
-                    if (confirmationPageElements.responseMessage) {
-                        confirmationPageElements.responseMessage.textContent = 'Hubo un error al actualizar tu estado. Inténtalo de nuevo.';
-                        confirmationPageElements.responseMessage.style.display = 'block';
-                        confirmationPageElements.responseMessage.classList.remove('success');
-                        confirmationPageElements.responseMessage.classList.add('error');
                     }
                     if (clickedButton) {
                         clickedButton.disabled = false;
@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (data.error) {
                         if (confirmationPageElements.guestCountInfo) confirmationPageElements.guestCountInfo.textContent = 'El enlace no es válido. Por favor, revisa el enlace de tu invitación.';
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
+                        if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
                         return;
                     }
 
