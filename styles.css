@@ -93,7 +93,7 @@ body {
 }
 .click-text {
     position: absolute;
-    top: 65%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #ffffff;
@@ -337,7 +337,7 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: rgb(25, 90, 16);
+    color: rgb(32, 130, 155);
     display: block;
     text-align: center;
     line-height: 1.2;
