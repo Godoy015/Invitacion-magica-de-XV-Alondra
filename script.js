@@ -14,10 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
     title: "ESTAS CORDIALMENTE INVITADO/A",
-    content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name' style='margin-top: 50px;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
     details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
 };
-
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
     const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
     let countdownInterval;
