@@ -4,40 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmación de Asistencia</title>
-    <script>
-        // Esta linea ya la tenias, evita que se entre a esta pagina directamente
-        if (!localStorage.getItem('invitationViewed')) {
-            window.location.href = 'invitacion.html';
-        }
-    </script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body class="confirmation-background">
-    <div class="form-section">
-        <h2>Confirmar Asistencia</h2>
-        <p id="guest-count-info" style="font-weight: bold;"></p>
-        <div id="formContainer">
-            <form id="attendanceForm">
-                <div id="guestFieldsContainer">
-                </div>
-                <button type="submit" class="btn" id="submitBtn">Enviar Confirmación</button>
-                <div id="responseMessage" class="response-message"></div>
-            </form>
-        </div>
-        
-        <div id="finalSuccessMessage" class="success-message-after-submit">
-            <h3>¡Confirmación Recibida con Éxito!</h3>
-            <p>Tus nombres han sido registrados. ¡Te esperamos en la fiesta!</p>
-            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2RneWJvdzNlZXJhdXI5NW5nOWVmM3oxOGprcXpkcTV3cHFiY3RxZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/PXvCWUnmqVdks/giphy.gif" alt="Confirmación Exitosa">
-            
-            <button id="backToInviteBtn" class="btn back-btn">Regresar a la Invitación</button>
-           
-<button id="clearStorageBtn" class="btn back-btn" style="display: none; margin-top: 20px;">Borrar Registro de Envío (Solo para pruebas)</button>
 
-        <div id="alreadySubmittedMessage" class="response-message error" style="display: none;">
-            Ya se ha enviado una respuesta desde este dispositivo.
-        </div>
+    <section class="form-section" id="formContainer">
+        <h2>Confirmar Asistencia</h2>
+        <p id="guest-count-info"></p>
+        <form id="attendanceForm">
+            <div id="guestFieldsContainer">
+                </div>
+            <button type="submit" class="btn">Confirmar Asistencia</button>
+            <div id="responseMessage" class="response-message"></div>
+        </form>
+    </section>
+
+    <div class="success-message-after-submit" id="finalSuccessMessage">
+        <h3>¡Asistencia confirmada!</h3>
+        <p>Tu respuesta ha sido recibida con éxito. ¡Te esperamos en nuestra gran celebración!</p>
+        <img src="imagenes/hp-patronus.gif" alt="Patronus animado">
+        <button id="backToInviteBtn" class="btn back-btn">Volver a la invitación</button>
     </div>
+
+    <div class="response-message" id="alreadySubmittedMessage" style="display: none;">
+        <p>¡Gracias! Tu asistencia ya ha sido confirmada. No es necesario que envíes la información de nuevo.</p>
+        <p>¡Te esperamos en el evento!</p>
+        <button id="backToInviteBtn" class="btn back-btn">Volver a la invitación</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
