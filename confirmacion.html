@@ -9,29 +9,18 @@
 <body class="confirmation-background">
     
     <div class="form-section" id="messageContainer">
-        <p id="guest-count-info"></p>
-    </div>
+    <p id="guest-count-info"></p>
+</div>
 
-    <div class="form-section" id="formContainer">
-        <h2>Confirmar Asistencia</h2>
-        <form id="attendanceForm">
-            
-            <div class="button-group-extra" id="extraButtons" style="margin-top: 20px;">
-                <hr>
-                <h2>¿Seguro/a que asistirás?</h2>
-                <p>Ayúdanos a planear mejor tu lugar en la fiesta.</p>
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button type="button" id="confirmButton" class="form-button confirm-button">100% Confirmado</button>
-                    <button type="button" id="maybeButton" class="form-button maybe-button">Estoy en Veremos</button>
-                </div>
+<div class="form-section" id="formContainer">
+    <h2>Confirmar Asistencia</h2>
+    <form id="attendanceForm">
+        <div id="guestFieldsContainer">
             </div>
-
-            <div id="guestFieldsContainer">
-            </div>
-            <div class="response-message" id="responseMessage"></div>
-            <button type="submit" class="btn">Confirmar Asistencia</button>
-        </form>
-    </div>
+        <div class="response-message" id="responseMessage"></div>
+        <button type="submit" class="btn">Confirmar Asistencia</button>
+    </form>
+</div>
 
     <div class="success-message-after-submit" id="finalSuccessMessage" style="display: none;">
         <h3>¡Gracias por confirmar!</h3>
