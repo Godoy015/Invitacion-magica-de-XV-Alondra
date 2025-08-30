@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundMusic = document.getElementById('background-music');
 
     const invitationText = {
-title: "ESTAS CORDIALMENTE INVITADO/A",
-content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
+    title: "ESTAS CORDIALMENTE INVITADO/A",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span style='display: block; text-align: center; margin-top: 5px; line-height: 1.1; color: #2f2447; font-size: 1.6em;'>Alondra Torres Godoy</span><br><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    details: "Fecha: Harry Potter<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
 };
 
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
