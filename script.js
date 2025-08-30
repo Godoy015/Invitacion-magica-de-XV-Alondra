@@ -135,12 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lógica para la página de confirmación (confirmacion.html)
     if (confirmationPageElements.form) {
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwZa9U8gbWYIhvOWR_MUWWUeS9pICKQcp5FgbxinnvIXx5eT0j9LrvraFx2UUHG0gCi/exec';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzus5XwYqNpaQvJ8WwGx516YwMtHWukZ61UNT6UgUv1ZitfxAMeYAyLVyoNlwcRyWoH/exec';
         
         // Función para enviar el estado de asistencia
         function sendAttendanceStatus(status) {
             if (!uniqueId) {
-                alert("ID de invitado no encontrado. Por favor, use el enlace de su invitación.");
+                if (confirmationPageElements.responseMessage) {
+                    confirmationPageElements.responseMessage.textContent = "ID de invitado no encontrado. Por favor, use el enlace de su invitación.";
+                    confirmationPageElements.responseMessage.style.display = 'block';
+                    confirmationPageElements.responseMessage.classList.remove('success');
+                    confirmationPageElements.responseMessage.classList.add('error');
+                }
                 return;
             }
 
@@ -155,14 +160,30 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
-                    alert(`Tu estado ha sido actualizado a: ${status}`);
+                    if (confirmationPageElements.responseMessage) {
+                        confirmationPageElements.responseMessage.textContent = `¡Tu estado ha sido actualizado a: ${status === 'confirmed' ? 'Confirmado' : 'En Veremos'}!`;
+                        confirmationPageElements.responseMessage.style.display = 'block';
+                        confirmationPageElements.responseMessage.classList.remove('error');
+                        confirmationPageElements.responseMessage.classList.add('success');
+                        confirmationPageElements.extraButtonsSection.style.display = 'none'; // Oculta los botones después de presionar
+                    }
                 } else {
-                    alert('Hubo un error al actualizar tu estado. Inténtalo de nuevo.');
+                    if (confirmationPageElements.responseMessage) {
+                        confirmationPageElements.responseMessage.textContent = 'Hubo un error al actualizar tu estado. Inténtalo de nuevo.';
+                        confirmationPageElements.responseMessage.style.display = 'block';
+                        confirmationPageElements.responseMessage.classList.remove('success');
+                        confirmationPageElements.responseMessage.classList.add('error');
+                    }
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Hubo un error de conexión. Por favor, revisa tu conexión.');
+                if (confirmationPageElements.responseMessage) {
+                    confirmationPageElements.responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión.';
+                    confirmationPageElements.responseMessage.style.display = 'block';
+                    confirmationPageElements.responseMessage.classList.remove('success');
+                    confirmationPageElements.responseMessage.classList.add('error');
+                }
             });
         }
 
@@ -191,15 +212,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const numGuests = data.numGuests;
                     const status = data.status;
-
-                    if (status === 'confirmed' || status === 'maybe') {
+                    
+                    if (status === 'confirmed') {
+                        // El invitado ya confirmó, solo mostramos el mensaje de éxito final
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
-                        if (confirmationPageElements.alreadySubmittedMessage) confirmationPageElements.alreadySubmittedMessage.style.display = 'block';
+                        if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'none';
+                        if (confirmationPageElements.finalSuccessMessage) {
+                             confirmationPageElements.finalSuccessMessage.style.display = 'block';
+                        }
                         if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
-                        localStorage.setItem('formSubmitted', 'true');
+                        return;
+                    } else if (status === 'maybe') {
+                        // El invitado seleccionó 'En Veremos', mostramos un mensaje de estado
+                        if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
+                        if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'block';
+                        if (confirmationPageElements.guestCountInfo) confirmationPageElements.guestCountInfo.textContent = 'Gracias por avisarnos. Tu estado de asistencia está en "Veremos".';
+                        if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
                         return;
                     }
-                    
+
+                    // Si no ha confirmado, mostramos el formulario con el número de invitados
                     if (confirmationPageElements.guestCountInfo) {
                         confirmationPageElements.guestCountInfo.textContent = `Tienes ${numGuests} pase(s) de entrada. Por favor, registra el/los nombre(s):`;
                     }
@@ -224,7 +256,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
 
                             if (!allFilled) {
-                                alert('Por favor, llena todos los campos de nombre.');
+                                if (confirmationPageElements.responseMessage) {
+                                    confirmationPageElements.responseMessage.textContent = 'Por favor, llena todos los campos de nombre.';
+                                    confirmationPageElements.responseMessage.style.display = 'block';
+                                    confirmationPageElements.responseMessage.classList.remove('success');
+                                    confirmationPageElements.responseMessage.classList.add('error');
+                                }
                                 if (submitButton) {
                                     submitButton.disabled = false;
                                     submitButton.textContent = 'Confirmar Asistencia';
@@ -234,8 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             const formData = new FormData(confirmationPageElements.form);
                             formData.append('numGuests', numGuests);
-                            formData.append('ID_Unico', uniqueId); // Agrega el ID único al formulario
-                            formData.append('status', 'confirmed'); // Por defecto, es 'confirmed' si envían el formulario
+                            formData.append('ID_Unico', uniqueId);
+                            formData.append('status', 'confirmed');
 
                             fetch(scriptUrl, {
                                 method: 'POST',
@@ -250,9 +287,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                         confirmationPageElements.finalSuccessMessage.style.display = 'block';
                                         if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
                                     }
-                                    localStorage.setItem('formSubmitted', 'true');
                                 } else {
-                                    alert('Hubo un error al enviar los datos. Inténtalo de nuevo.');
+                                    if (confirmationPageElements.responseMessage) {
+                                        confirmationPageElements.responseMessage.textContent = 'Hubo un error al enviar los datos. Inténtalo de nuevo.';
+                                        confirmationPageElements.responseMessage.style.display = 'block';
+                                        confirmationPageElements.responseMessage.classList.remove('success');
+                                        confirmationPageElements.responseMessage.classList.add('error');
+                                    }
                                 }
                                 if (submitButton) {
                                     submitButton.disabled = false;
@@ -261,7 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                alert('Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.');
+                                if (confirmationPageElements.responseMessage) {
+                                    confirmationPageElements.responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.';
+                                    confirmationPageElements.responseMessage.style.display = 'block';
+                                    confirmationPageElements.responseMessage.classList.remove('success');
+                                    confirmationPageElements.responseMessage.classList.add('error');
+                                }
                                 if (submitButton) {
                                     submitButton.disabled = false;
                                     submitButton.textContent = 'Confirmar Asistencia';
