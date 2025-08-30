@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invitationText = {
         title: "ESTAS CORDIALMENTE INVITADO/A",
-        // Eliminamos el margin-top y el display block del style, ahora se controlará por CSS para el espaciado
-        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name' style='color: #8718b3ff; font-size: 2em;'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
         details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
     };
 
