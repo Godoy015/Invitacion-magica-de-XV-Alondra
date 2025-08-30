@@ -1,55 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Asistencia</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Asistencia</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="confirmation-background">
-    
-    <div class="form-section" id="messageContainer">
-        <p id="guest-count-info"></p>
-    </div>
+    
+    <div class="form-section" id="messageContainer">
+        <p id="guest-count-info"></p>
+    </div>
 
-    <div class="form-section" id="formContainer">
-        <h2>Confirmar Asistencia</h2>
-        <form id="attendanceForm">
-            
-                        <div class="button-group-extra" id="extraButtons" style="margin-top: 20px;">
-                <hr>
-                <h2>¿Seguro/a que asistirás?</h2>
-                <p>Ayúdanos a planear mejor tu lugar en la fiesta.</p>
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button type="button" id="confirmButton" class="form-button confirm-button">100% Confirmado</button>
-                    <button type="button" id="maybeButton" class="form-button maybe-button">Estoy en Veremos</button>
-                </div>
-            </div>
+    <div class="form-section" id="formContainer">
+        <h2>Confirmar Asistencia</h2>
+        <form id="attendanceForm">
+            
+            <div class="button-group-extra" id="extraButtons" style="margin-top: 20px;">
+                <hr>
+                <h2>¿Seguro/a que asistirás?</h2>
+                <p>Ayúdanos a planear mejor tu lugar en la fiesta.</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button type="button" id="confirmButton" class="form-button confirm-button">100% Confirmado</button>
+                    <button type="button" id="maybeButton" class="form-button maybe-button">Estoy en Veremos</button>
+                </div>
+            </div>
 
-            <div id="guestFieldsContainer">
-            </div>
-            <div class="response-message" id="responseMessage"></div>
-            <button type="submit" class="btn">Confirmar Asistencia</button>
-        </form>
-    </div>
+            <div id="guestFieldsContainer">
+            </div>
+            <div class="response-message" id="responseMessage"></div>
+            <button type="submit" class="btn">Confirmar Asistencia</button>
+        </form>
+    </div>
 
-    <div class="success-message-after-submit" id="finalSuccessMessage" style="display: none;">
-        <h3>¡Gracias por confirmar!</h3>
-        <p>Tu asistencia ha sido registrada.</p>
-        <img src="imagenes/Harry Potter Applause GIF.gif" alt="Icono de confirmación" />
-        <p>Te esperamos con gusto en nuestro evento.</p>
-    </div>
+    <div class="success-message-after-submit" id="finalSuccessMessage" style="display: none;">
+        <h3>¡Gracias por confirmar!</h3>
+        <p>Tu asistencia ha sido registrada.</p>
+        <img src="imagenes/Harry Potter Applause GIF.gif" alt="Icono de confirmación" />
+        <p>Te esperamos con gusto en nuestro evento.</p>
+    </div>
 
-    <div class="form-section" id="alreadySubmittedMessage" style="display: none;">
-        <h2>Ya has confirmado tu asistencia.</h2>
-        <p>¡Gracias! Te esperamos en la fiesta.</p>
-    </div>
-<div class="form-section" id="alreadySubmittedMessage" style="display: none;">
-    <h2>¡Gracias por confirmar!</h2>
-    <p>Tu estado ha sido registrado.</p>
-</div>
-    <button class="btn back-btn" id="backToInviteBtn" style="display: none;">Regresar a la invitación</button>
+    <div class="form-section" id="alreadySubmittedMessage" style="display: none;">
+        <h2>Ya has confirmado tu asistencia.</h2>
+        <p>¡Gracias! Te esperamos en la fiesta.</p>
+    </div>
 
-    <script src="script.js"></script>
+    <button class="btn back-btn" id="backToInviteBtn" style="display: none;">Regresar a la invitación</button>
+
+    <script src="script.js"></script>
 </body>
 </html>
