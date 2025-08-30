@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const invitationText = {
         title: "ESTAS CORDIALMENTE INVITADO/A",
         content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-        details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡se requiere ser bien prra!"
+        details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡se requiere Varita!"
     };
 
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
@@ -112,10 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Lógica para el formulario de confirmación
-    // Solo se ejecuta en la página de confirmación
-    const urlParams = new URLSearchParams(window.location.search);
-    const numGuestsFromUrl = urlParams.get('invitados');
-    
     const formContainer = document.getElementById('formContainer');
     const form = document.getElementById('attendanceForm');
     const guestFieldsContainer = document.getElementById('guestFieldsContainer');
@@ -126,9 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToInviteBtn = document.getElementById('backToInviteBtn');
 
     if (form) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const numGuestsFromUrl = urlParams.get('invitados');
         const numGuests = parseInt(numGuestsFromUrl);
 
-        // Oculta todos los mensajes al inicio
         if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'none';
         if (finalSuccessMessage) finalSuccessMessage.style.display = 'none';
         if (backToInviteBtn) backToInviteBtn.style.display = 'none';
@@ -137,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('formSubmitted') === 'true') {
             if (formContainer) formContainer.style.display = 'none';
             if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-            if (backToInviteBtn) backToInviteBtn.style.display = 'block'; 
+            if (backToInviteBtn) backToInviteBtn.style.display = 'block';
             return;
         }
 

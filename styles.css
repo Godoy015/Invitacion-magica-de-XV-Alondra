@@ -18,7 +18,6 @@ body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    /* Cambio clave: Apila los elementos verticalmente y los centra */
     flex-direction: column;
 }
 
@@ -254,7 +253,6 @@ input[type="number"] {
 }
 .btn.back-btn {
     background-color: #6c757d;
-    /* Se elimina el margen y se deja que el Flexbox del body lo posicione */
     margin-top: 20px;
     max-width: 500px;
 }
@@ -342,7 +340,7 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: #8718b3ff;
+    color: #7D289B; /* Se ajusta el color del nombre a un tono morado */
     display: block;
     text-align: center;
     line-height: 1.2;
