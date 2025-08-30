@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Asistencia</title>
+    <title>Confirmar Asistencia</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body class="confirmation-background">
-
-    <section class="form-section" id="formContainer">
+    <div class="form-section" id="formContainer">
         <h2>Confirmar Asistencia</h2>
         <p id="guest-count-info"></p>
         <form id="attendanceForm">
             <div id="guestFieldsContainer">
                 </div>
+            <div class="response-message" id="responseMessage"></div>
             <button type="submit" class="btn">Confirmar Asistencia</button>
-            <div id="responseMessage" class="response-message"></div>
         </form>
-    </section>
+    </div>
 
     <div class="success-message-after-submit" id="finalSuccessMessage">
-        <h3>¡Asistencia confirmada!</h3>
-        <p>Tu respuesta ha sido recibida con éxito. ¡Te esperamos en nuestra gran celebración!</p>
-        <img src="imagenes/hp-patronus.gif" alt="Patronus animado">
-        <button id="backToInviteBtn" class="btn back-btn">Volver a la invitación</button>
+        <h3>¡Gracias por confirmar!</h3>
+        <p>Tu asistencia ha sido registrada.</p>
+        <img src="imagenes/image_d2e178.jpg" alt="Icono de confirmación" />
+        <p>Te esperamos con gusto en nuestro evento.</p>
     </div>
 
-    <div class="response-message" id="alreadySubmittedMessage">
-        <p>¡Gracias! Tu asistencia ya ha sido confirmada. No es necesario que envíes la información de nuevo.</p>
-        <p>¡Te esperamos en el evento!</p>
-        <button id="backToInviteBtn" class="btn back-btn">Volver a la invitación</button>
+    <div class="form-section" id="alreadySubmittedMessage" style="display: none;">
+        <h2>Ya has confirmado tu asistencia.</h2>
+        <p>¡Gracias! Te esperamos en la fiesta.</p>
     </div>
+
+    <button class="btn back-btn" id="backToInviteBtn">Regresar a la invitación</button>
 
     <script src="script.js"></script>
 </body>

@@ -93,7 +93,7 @@ body {
 }
 .click-text {
     position: absolute;
-    top: 55%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #ffffff;
@@ -123,8 +123,8 @@ body {
 .invitation-card {
     width: 350px;
     height: 500px;
-    max-height: 500px; /* Asegura que no se estire */
-    overflow-y: auto; /* Habilita el scroll vertical si el contenido es muy largo */
+    max-height: 500px; 
+    overflow-y: auto; 
     background-image: url('imagenes/descarga.jpeg');
     background-size: contain;
     background-position: center;
@@ -339,7 +339,7 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: rgb(145, 142, 155);
+    color: rgb(37, 120, 126);
     display: block;
     text-align: center;
     line-height: 1.2;

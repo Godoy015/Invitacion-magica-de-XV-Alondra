@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (backgroundMusic) {
                 backgroundMusic.play().catch(e => console.log("La reproducción automática fue bloqueada:", e));
             }
-            clickOverlay.style.display = 'none';
+            clickOverlay.classList.add('hidden');
             envelope.classList.add('open');
             setTimeout(() => {
                 invitationCard.classList.add('visible');
