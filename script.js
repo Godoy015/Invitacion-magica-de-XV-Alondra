@@ -1,268 +1,303 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Lógica para la invitación
-    const clickOverlay = document.querySelector('.click-overlay');
-    const envelope = document.querySelector('.envelope');
-    const invitationCard = document.querySelector('.invitation-card');
-    const invitationTitle = document.querySelector('.invitation-card .title');
-    const invitationContent = document.querySelector('.invitation-card .content');
-    const invitationDetails = document.querySelector('.invitation-card .details');
-    const rsvpButton = document.querySelector('.rsvp-button');
-    const countdownElement = document.getElementById('countdown');
-    const deadlineNotice = document.getElementById('deadline-notice');
-    const backgroundMusic = document.getElementById('background-music');
-
-    // === AGREGAR ESTE NUEVO BLOQUE DE CÓDIGO AQUÍ ===
-    if (localStorage.getItem('formSubmitted') === 'true') {
-        if (rsvpButton) {
-            rsvpButton.disabled = true;
-            rsvpButton.textContent = "¡Ya te has registrado!";
-            rsvpButton.classList.add('disabled-button');
-        }
-    }
-    // ===========================================
-
-    const invitationText = {
-        title: "ESTAS CORDIALMENTE INVITADO/A",
-        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-        details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡se requiere Varita!"
+    const invitationPageElements = {
+        clickOverlay: document.querySelector('.click-overlay'),
+        envelope: document.querySelector('.envelope'),
+        invitationCard: document.querySelector('.invitation-card'),
+        invitationTitle: document.querySelector('.invitation-card .title'),
+        invitationContent: document.querySelector('.invitation-card .content'),
+        invitationDetails: document.querySelector('.invitation-card .details'),
+        rsvpButton: document.querySelector('.rsvp-button'),
+        countdownElement: document.getElementById('countdown'),
+        deadlineNotice: document.getElementById('deadline-notice'),
+        backgroundMusic: document.getElementById('background-music')
     };
 
-    const partyDate = new Date("November 22, 2025 23:59:59").getTime();
-    const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
-    let countdownInterval;
+    const confirmationPageElements = {
+        formContainer: document.getElementById('formContainer'),
+        messageContainer: document.getElementById('messageContainer'),
+        form: document.getElementById('attendanceForm'),
+        guestFieldsContainer: document.getElementById('guestFieldsContainer'),
+        responseMessage: document.getElementById('responseMessage'),
+        alreadySubmittedMessage: document.getElementById('alreadySubmittedMessage'),
+        finalSuccessMessage: document.getElementById('finalSuccessMessage'),
+        guestCountInfo: document.getElementById('guest-count-info'),
+        backToInviteBtn: document.getElementById('backToInviteBtn'),
+        confirmButtonExtra: document.getElementById('confirmButton'),
+        maybeButtonExtra: document.getElementById('maybeButton'),
+        extraButtonsSection: document.getElementById('extraButtons')
+    };
 
-    function startCountdown() {
-        if (!countdownElement || !deadlineNotice) return;
-        countdownElement.style.opacity = 1;
-        deadlineNotice.style.opacity = 1;
-        countdownInterval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = partyDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                countdownElement.textContent = "¡Es hoy la fiesta!";
-            } else {
-                countdownElement.textContent = `Faltan: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    const urlParams = new URLSearchParams(window.location.search);
+    const uniqueId = urlParams.get('id');
+
+    // Lógica para la página de invitación (index.html)
+    if (invitationPageElements.clickOverlay) {
+        const invitationText = {
+            title: "ESTAS CORDIALMENTE INVITADO/A",
+            content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+            details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡se requiere Varita!"
+        };
+        const partyDate = new Date("November 22, 2025 23:59:59").getTime();
+        const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
+        let countdownInterval;
+
+        function showInvitationContent() {
+            if (invitationPageElements.invitationTitle) invitationPageElements.invitationTitle.innerHTML = invitationText.title;
+            if (invitationPageElements.invitationContent) invitationPageElements.invitationContent.innerHTML = invitationText.content;
+            if (invitationPageElements.invitationDetails) invitationPageElements.invitationDetails.innerHTML = invitationText.details;
+
+            [invitationPageElements.invitationTitle, invitationPageElements.invitationContent, invitationPageElements.invitationDetails].forEach(el => {
+                if(el) el.style.opacity = 1;
+            });
+            
+            startCountdown();
+            if (invitationPageElements.rsvpButton) invitationPageElements.rsvpButton.classList.add('visible-button');
+
+            if (invitationPageElements.backgroundMusic) {
+                invitationPageElements.backgroundMusic.play().catch(e => console.log("Música no se pudo reproducir automáticamente."));
             }
-            if (now >= deadlineDate) {
-                if(rsvpButton) {
-                    rsvpButton.disabled = true;
-                    rsvpButton.textContent = "Registro Cerrado";
+        }
+
+        function startCountdown() {
+            if (!invitationPageElements.countdownElement || !invitationPageElements.deadlineNotice) return;
+            invitationPageElements.countdownElement.style.opacity = 1;
+            invitationPageElements.deadlineNotice.style.opacity = 1;
+            countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = partyDate - now;
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    invitationPageElements.countdownElement.textContent = "¡Es hoy la fiesta!";
+                } else {
+                    invitationPageElements.countdownElement.textContent = `Faltan: ${days}d ${hours}h ${minutes}m ${seconds}s`;
                 }
-                deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025 (Expirada)";
-            } else {
-                deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025";
-            }
-        }, 1000);
-    }
-    
-    if (clickOverlay && envelope && invitationCard && invitationTitle && invitationContent && invitationDetails && rsvpButton) {
-        clickOverlay.addEventListener('click', () => {
-            if (backgroundMusic) {
-                backgroundMusic.play().catch(e => console.log("La reproducción automática fue bloqueada:", e));
-            }
-            clickOverlay.classList.add('hidden');
-            envelope.classList.add('open');
-            setTimeout(() => {
-                invitationCard.classList.add('visible');
-                typewriterEffect(invitationTitle, invitationText.title, 0, () => {
-                    invitationContent.innerHTML = invitationText.content;
-                    invitationContent.style.opacity = 1;
-                    
-                    invitationDetails.innerHTML = invitationText.details;
-                    invitationDetails.style.opacity = 1;
-                    
-                    startCountdown();
-                    rsvpButton.classList.add('visible-button');
-                });
+
+                if (now >= deadlineDate) {
+                    if(invitationPageElements.rsvpButton) {
+                        invitationPageElements.rsvpButton.disabled = true;
+                        invitationPageElements.rsvpButton.textContent = "Registro Cerrado";
+                    }
+                    invitationPageElements.deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025 (Expirada)";
+                } else {
+                    invitationPageElements.deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025";
+                }
             }, 1000);
-        }, { once: true });
-    }
-
-    function typewriterEffect(element, text, i, callback) {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            element.style.opacity = 1;
-            setTimeout(() => typewriterEffect(element, text, i + 1, callback), 50);
-        } else {
-            element.innerHTML = text; 
-            if (callback) {
-                callback();
-            }
         }
-    }
-    
-    if (rsvpButton) {
-        rsvpButton.addEventListener('click', () => {
-            if (!rsvpButton.disabled) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const numGuestsFromUrl = urlParams.get('invitados'); 
+
+        if (localStorage.getItem('invitationViewed') === 'true') {
+            invitationPageElements.clickOverlay.classList.add('hidden');
+            if (invitationPageElements.envelope) invitationPageElements.envelope.classList.add('open');
+            if (invitationPageElements.invitationCard) invitationPageElements.invitationCard.classList.add('visible');
+            showInvitationContent();
+        } else {
+            invitationPageElements.clickOverlay.addEventListener('click', () => {
+                if (invitationPageElements.backgroundMusic) {
+                    invitationPageElements.backgroundMusic.play().catch(e => console.log("La reproducción automática fue bloqueada:", e));
+                }
+                invitationPageElements.clickOverlay.classList.add('hidden');
+                if (invitationPageElements.envelope) invitationPageElements.envelope.classList.add('open');
                 
+                setTimeout(() => {
+                    if (invitationPageElements.invitationCard) invitationPageElements.invitationCard.classList.add('visible');
+                    showInvitationContent();
+                }, 1000);
+
                 localStorage.setItem('invitationViewed', 'true');
-                
-                window.location.href = `confirmacion.html?invitados=${numGuestsFromUrl}`;
+            }, { once: true });
+        }
+
+        if (invitationPageElements.rsvpButton) {
+            // Verifica si hay un ID único en el URL
+            const rsvpUniqueId = urlParams.get('id');
+
+            if (!rsvpUniqueId) {
+                // Si no hay ID, el botón no funcionará
+                invitationPageElements.rsvpButton.disabled = true;
+                invitationPageElements.rsvpButton.textContent = "Enlace inválido";
+            } else {
+                // El botón ahora redirige a la página de confirmación con el ID único
+                invitationPageElements.rsvpButton.href = `confirmacion.html?id=${rsvpUniqueId}`;
             }
-        });
+
+            if (localStorage.getItem('formSubmitted') === 'true') {
+                invitationPageElements.rsvpButton.disabled = true;
+                invitationPageElements.rsvpButton.textContent = "¡Ya te has registrado!";
+                invitationPageElements.rsvpButton.classList.add('disabled-button'); 
+            }
+        }
     }
 
-    const now = new Date().getTime();
-    if (now >= deadlineDate) {
-        if (rsvpButton) {
-            rsvpButton.disabled = true;
-            rsvpButton.textContent = "Registro Cerrado";
-        }
-        if (deadlineNotice) {
-            deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025 (Expirada)";
-        }
-    }
-
-    // Lógica para el formulario de confirmación
-    const formContainer = document.getElementById('formContainer');
-    const messageContainer = document.getElementById('messageContainer');
-    const form = document.getElementById('attendanceForm');
-    const guestFieldsContainer = document.getElementById('guestFieldsContainer');
-    const responseMessage = document.getElementById('responseMessage');
-    const alreadySubmittedMessage = document.getElementById('alreadySubmittedMessage');
-    const finalSuccessMessage = document.getElementById('finalSuccessMessage');
-    const guestCountInfo = document.getElementById('guest-count-info');
-    const backToInviteBtn = document.getElementById('backToInviteBtn');
-
-    if (form) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const numGuestsFromUrl = urlParams.get('invitados');
-        const numGuests = parseInt(numGuestsFromUrl);
-
-        if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'none';
-        if (finalSuccessMessage) finalSuccessMessage.style.display = 'none';
-        if (backToInviteBtn) backToInviteBtn.style.display = 'none';
-        if (formContainer) formContainer.style.display = 'block';
-
-        if (localStorage.getItem('formSubmitted') === 'true') {
-            if (formContainer) formContainer.style.display = 'none';
-            if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-            if (backToInviteBtn) backToInviteBtn.style.display = 'block';
-            return;
-        }
-
-        if (!numGuests || numGuests < 1 || numGuests > 6) {
-            if (guestCountInfo) {
-                guestCountInfo.textContent = 'El enlace no es válido. Por favor, revisa el enlace de tu invitación.';
+    // Lógica para la página de confirmación (confirmacion.html)
+    if (confirmationPageElements.form) {
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxYjNzS-S5xVFH1GxZzz-JKO7p_3HDfdi7cLbSGYgL4lRbtTpgCaHmFeh9D7-QdgLGt/exec';
+        
+        // Función para enviar el estado de asistencia
+        function sendAttendanceStatus(status) {
+            if (!uniqueId) {
+                alert("ID de invitado no encontrado. Por favor, use el enlace de su invitación.");
+                return;
             }
-            if (formContainer) formContainer.style.display = 'none';
-            if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'none';
-        } else {
-            if (guestCountInfo) {
-                guestCountInfo.textContent = `Tienes ${numGuests} pase(s) de entrada. Por favor, registra el/los nombre(s):`;
-            }
-            generateGuestFields(numGuests);
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const submitButton = form.querySelector('button[type="submit"]');
-                if (submitButton) {
-                    submitButton.disabled = true;
-                    submitButton.textContent = 'Enviando...';
+            const formData = new FormData();
+            formData.append('ID_Unico', uniqueId);
+            formData.append('status', status);
+
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    alert(`Tu estado ha sido actualizado a: ${status}`);
+                } else {
+                    alert('Hubo un error al actualizar tu estado. Inténtalo de nuevo.');
                 }
-                
-                if (responseMessage) {
-                    responseMessage.style.display = 'none';
-                    responseMessage.className = 'response-message';
-                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error de conexión. Por favor, revisa tu conexión.');
+            });
+        }
 
-                const guestNames = guestFieldsContainer.querySelectorAll('input');
-                let allFilled = true;
-                guestNames.forEach(input => {
-                    if (!input.value.trim()) {
-                        allFilled = false;
-                    }
-                });
+        // Manejar el clic de los nuevos botones
+        if (confirmationPageElements.confirmButtonExtra) {
+            confirmationPageElements.confirmButtonExtra.addEventListener('click', () => {
+                sendAttendanceStatus('confirmed');
+            });
+        }
+        if (confirmationPageElements.maybeButtonExtra) {
+            confirmationPageElements.maybeButtonExtra.addEventListener('click', () => {
+                sendAttendanceStatus('maybe');
+            });
+        }
 
-                if (!allFilled) {
-                    if (responseMessage) {
-                        responseMessage.textContent = 'Por favor, llena todos los campos de nombre.';
-                        responseMessage.classList.add('error');
-                        responseMessage.style.display = 'block';
-                    }
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'Confirmar Asistencia';
-                    }
-                    return;
-                }
-
-                const formData = new FormData(form);
-                formData.append('numGuests', numGuests);
-                const scriptUrl = 'https://script.google.com/macros/s/AKfycbxYjNzS-S5xVFH1GxZzz-JKO7p_3HDfdi7cLbSGYgL4lRbtTpgCaHmFeh9D7-QdgLGt/exec';
-
-                fetch(scriptUrl, {
-                    method: 'POST',
-                    body: formData
-                })
+        // Cargar los datos del invitado al cargar la página
+        if (uniqueId) {
+            fetch(`${scriptUrl}?id=${uniqueId}`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.result === 'success') {
-                        if (formContainer) formContainer.style.display = 'none';
-                        if (messageContainer) messageContainer.style.display = 'none';
-                        if (finalSuccessMessage) {
-                            finalSuccessMessage.style.display = 'block';
-                            if (backToInviteBtn) backToInviteBtn.style.display = 'block';
-                        }
-                        localStorage.setItem('formSubmitted', 'true');
-                        if (responseMessage) {
-                            responseMessage.textContent = '¡Asistencia(s) confirmada(s) exitosamente! Gracias por tu respuesta.';
-                            responseMessage.classList.add('success');
-                        }
-                    } else {
-                        if (responseMessage) {
-                            responseMessage.textContent = 'Hubo un error al enviar los datos. Inténtalo de nuevo.';
-                            responseMessage.classList.add('error');
-                            responseMessage.style.display = 'block';
-                        }
+                    if (data.error) {
+                        if (confirmationPageElements.guestCountInfo) confirmationPageElements.guestCountInfo.textContent = 'El enlace no es válido. Por favor, revisa el enlace de tu invitación.';
+                        if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
+                        return;
                     }
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'Confirmar Asistencia';
+
+                    const numGuests = data.numGuests;
+                    const status = data.status;
+
+                    if (status === 'confirmed' || status === 'maybe') {
+                        if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
+                        if (confirmationPageElements.alreadySubmittedMessage) confirmationPageElements.alreadySubmittedMessage.style.display = 'block';
+                        if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
+                        localStorage.setItem('formSubmitted', 'true');
+                        return;
+                    }
+                    
+                    if (confirmationPageElements.guestCountInfo) {
+                        confirmationPageElements.guestCountInfo.textContent = `Tienes ${numGuests} pase(s) de entrada. Por favor, registra el/los nombre(s):`;
+                    }
+                    generateGuestFields(numGuests);
+                    
+                    if (confirmationPageElements.form) {
+                        confirmationPageElements.form.addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            
+                            const submitButton = confirmationPageElements.form.querySelector('button[type="submit"]');
+                            if (submitButton) {
+                                submitButton.disabled = true;
+                                submitButton.textContent = 'Enviando...';
+                            }
+                            
+                            const guestNames = confirmationPageElements.guestFieldsContainer.querySelectorAll('input');
+                            let allFilled = true;
+                            guestNames.forEach(input => {
+                                if (!input.value.trim()) {
+                                    allFilled = false;
+                                }
+                            });
+
+                            if (!allFilled) {
+                                alert('Por favor, llena todos los campos de nombre.');
+                                if (submitButton) {
+                                    submitButton.disabled = false;
+                                    submitButton.textContent = 'Confirmar Asistencia';
+                                }
+                                return;
+                            }
+
+                            const formData = new FormData(confirmationPageElements.form);
+                            formData.append('numGuests', numGuests);
+                            formData.append('ID_Unico', uniqueId); // Agrega el ID único al formulario
+                            formData.append('status', 'confirmed'); // Por defecto, es 'confirmed' si envían el formulario
+
+                            fetch(scriptUrl, {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.result === 'success') {
+                                    if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
+                                    if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'none';
+                                    if (confirmationPageElements.finalSuccessMessage) {
+                                        confirmationPageElements.finalSuccessMessage.style.display = 'block';
+                                        if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
+                                    }
+                                    localStorage.setItem('formSubmitted', 'true');
+                                } else {
+                                    alert('Hubo un error al enviar los datos. Inténtalo de nuevo.');
+                                }
+                                if (submitButton) {
+                                    submitButton.disabled = false;
+                                    submitButton.textContent = 'Confirmar Asistencia';
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.');
+                                if (submitButton) {
+                                    submitButton.disabled = false;
+                                    submitButton.textContent = 'Confirmar Asistencia';
+                                }
+                            });
+                        });
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    if (responseMessage) {
-                        responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.';
-                        responseMessage.classList.add('error');
-                        responseMessage.style.display = 'block';
+                    console.error('Error al obtener datos del invitado:', error);
+                    if (confirmationPageElements.guestCountInfo) {
+                        confirmationPageElements.guestCountInfo.textContent = 'Error al cargar los datos. Por favor, inténtalo de nuevo.';
                     }
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'Confirmar Asistencia';
-                    }
+                    if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
                 });
+        }
+
+
+        if (confirmationPageElements.backToInviteBtn) {
+            confirmationPageElements.backToInviteBtn.addEventListener('click', () => {
+                window.location.href = `index.html?id=${uniqueId}`;
             });
         }
-    }
 
-    if (backToInviteBtn) {
-        backToInviteBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-    }
-
-    function generateGuestFields(num) {
-        if (!guestFieldsContainer) return;
-        guestFieldsContainer.innerHTML = '';
-        for (let i = 1; i <= num; i++) {
-            const formGroup = document.createElement('div');
-            formGroup.className = 'form-group';
-            formGroup.innerHTML = `
-                <label for="guestName${i}">Nombre Completo del Invitado ${i}:</label>
-                <input type="text" id="guestName${i}" name="Nombre_Invitado_${i}" required>
-            `;
-            guestFieldsContainer.appendChild(formGroup);
+        function generateGuestFields(num) {
+            if (!confirmationPageElements.guestFieldsContainer) return;
+            confirmationPageElements.guestFieldsContainer.innerHTML = '';
+            for (let i = 1; i <= num; i++) {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                formGroup.innerHTML = `
+                    <label for="guestName${i}">Nombre Completo del Invitado ${i}:</label>
+                    <input type="text" id="guestName${i}" name="Nombre_Invitado_${i}" required>
+                `;
+                confirmationPageElements.guestFieldsContainer.appendChild(formGroup);
+            }
         }
     }
 });
