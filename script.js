@@ -91,4 +91,174 @@ document.addEventListener('DOMContentLoaded', () => {
 }
     
     if (rsvpButton) {
-        rsvpButton.
+        rsvpButton.addEventListener('click', () => {
+            if (!rsvpButton.disabled) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const numGuestsFromUrl = urlParams.get('invitados'); 
+                
+                localStorage.setItem('invitationViewed', 'true');
+                
+                window.location.href = `confirmacion.html?invitados=${numGuestsFromUrl}`;
+            }
+        });
+    }
+
+    const now = new Date().getTime();
+    if (now >= deadlineDate) {
+        if (rsvpButton) {
+            rsvpButton.disabled = true;
+            rsvpButton.textContent = "Registro Cerrado";
+        }
+        if (deadlineNotice) {
+            deadlineNotice.textContent = "Fecha límite de confirmación: 20 de noviembre de 2025 (Expirada)";
+        }
+    }
+
+    // Lógica para el formulario de confirmación
+    const urlParams = new URLSearchParams(window.location.search);
+    const numGuestsFromUrl = urlParams.get('invitados');
+    
+    const formContainer = document.getElementById('formContainer');
+    const form = document.getElementById('attendanceForm');
+    const guestFieldsContainer = document.getElementById('guestFieldsContainer');
+    const responseMessage = document.getElementById('responseMessage');
+    const alreadySubmittedMessage = document.getElementById('alreadySubmittedMessage');
+    const finalSuccessMessage = document.getElementById('finalSuccessMessage');
+    const guestCountInfo = document.getElementById('guest-count-info');
+    const backToInviteBtn = document.getElementById('backToInviteBtn');
+    const clearStorageBtn = document.getElementById('clearStorageBtn');
+
+    if (form) {
+        const numGuests = parseInt(numGuestsFromUrl);
+
+        if (!numGuests || numGuests < 1 || numGuests > 6) {
+            if (guestCountInfo) {
+                guestCountInfo.textContent = 'El enlace no es válido. Por favor, revisa el enlace de tu invitación.';
+            }
+            if (formContainer) formContainer.style.display = 'none';
+        } else {
+            if (guestCountInfo) {
+                guestCountInfo.textContent = `Tienes ${numGuests} pase(s) para esta celebración. Por favor, registra el/los nombre(s):`;
+            }
+            generateGuestFields(numGuests);
+            
+            // Lógica para bloquear futuros envíos.
+            //if (localStorage.getItem('formSubmitted') === 'true') {
+              //  if (formContainer) formContainer.style.display = 'none';
+               // if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
+            //}
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'Enviando...';
+                }
+                
+                if (responseMessage) {
+                    responseMessage.style.display = 'none';
+                    responseMessage.className = 'response-message';
+                }
+
+                const guestNames = guestFieldsContainer.querySelectorAll('input');
+                let allFilled = true;
+                guestNames.forEach(input => {
+                    if (!input.value.trim()) {
+                        allFilled = false;
+                    }
+                });
+
+                if (!allFilled) {
+                    if (responseMessage) {
+                        responseMessage.textContent = 'Por favor, llena todos los campos de nombre.';
+                        responseMessage.classList.add('error');
+                        responseMessage.style.display = 'block';
+                    }
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Confirmar Asistencia';
+                    }
+                    return;
+                }
+
+                const formData = new FormData(form);
+                formData.append('numGuests', numGuests);
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbxYjNzS-S5xVFH1GxZzz-JKO7p_3HDfdi7cLbSGYgL4lRbtTpgCaHmFeh9D7-QdgLGt/exec';
+
+                fetch(scriptUrl, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        if (formContainer) formContainer.style.display = 'none';
+                        if (finalSuccessMessage) {
+                            finalSuccessMessage.style.display = 'block';
+                            if (backToInviteBtn) backToInviteBtn.style.display = 'block';
+                        }
+                        localStorage.setItem('formSubmitted', 'true');
+                        if (responseMessage) {
+                            responseMessage.textContent = '¡Asistencia(s) confirmada(s) exitosamente! Gracias por tu respuesta.';
+                            responseMessage.classList.add('success');
+                        }
+                    } else {
+                        if (responseMessage) {
+                            responseMessage.textContent = 'Hubo un error al enviar los datos. Inténtalo de nuevo.';
+                            responseMessage.classList.add('error');
+                            responseMessage.style.display = 'block';
+                        }
+                    }
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Confirmar Asistencia';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    if (responseMessage) {
+                        responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.';
+                        responseMessage.classList.add('error');
+                        responseMessage.style.display = 'block';
+                    }
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Confirmar Asistencia';
+                    }
+                });
+            });
+        }
+    }
+
+    if (backToInviteBtn) {
+    backToInviteBtn.addEventListener('click', () => {
+        // Usamos history.back() para regresar en el historial del navegador.
+        // Esto es más seguro y fiable que usar una ruta de archivo.
+        history.back();
+    });
+}
+
+    if (clearStorageBtn) {
+        clearStorageBtn.addEventListener('click', () => {
+            localStorage.removeItem('formSubmitted');
+            alert('El registro de envío ha sido borrado. Ahora puedes volver a enviar el formulario.');
+            location.reload();
+        });
+    }
+
+    function generateGuestFields(num) {
+        if (!guestFieldsContainer) return;
+        guestFieldsContainer.innerHTML = '';
+        for (let i = 1; i <= num; i++) {
+            const formGroup = document.createElement('div');
+            formGroup.className = 'form-group';
+            formGroup.innerHTML = `
+                <label for="guestName${i}">Nombre Completo del Invitado ${i}:</label>
+                <input type="text" id="guestName${i}" name="Nombre_Invitado_${i}" required>
+            `;
+            guestFieldsContainer.appendChild(formGroup);
+        }
+    }
+});
