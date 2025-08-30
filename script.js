@@ -61,16 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
             clickOverlay.classList.add('hidden');
             envelope.classList.add('open');
             setTimeout(() => {
-                invitationCard.classList.add('visible');
-                typewriterEffect(invitationTitle, invitationText.title, 0, () => {
-                    typewriterEffect(invitationContent, invitationText.content, 0, () => {
-                        typewriterEffect(invitationDetails, invitationText.details, 0, () => {
-                            startCountdown();
-                            rsvpButton.classList.add('visible-button');
-                        });
-                    });
-                });
-            }, 1000);
+    invitationCard.classList.add('visible');
+    typewriterEffect(invitationTitle, invitationText.title, 0, () => {
+        invitationContent.innerHTML = invitationText.content;
+        invitationContent.style.opacity = 1;
+        
+        invitationDetails.innerHTML = invitationText.details;
+        invitationDetails.style.opacity = 1;
+        
+        startCountdown();
+        rsvpButton.classList.add('visible-button');
+    });
+}, 1000);
         }, { once: true });
     }
 
