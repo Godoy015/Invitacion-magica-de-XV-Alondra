@@ -113,15 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (invitationPageElements.rsvpButton) {
-            // Verifica si hay un ID único en el URL
             const rsvpUniqueId = urlParams.get('id');
 
             if (!rsvpUniqueId) {
-                // Si no hay ID, el botón no funcionará
                 invitationPageElements.rsvpButton.disabled = true;
                 invitationPageElements.rsvpButton.textContent = "Enlace inválido";
             } else {
-                // El botón ahora redirige a la página de confirmación con el ID único
                 invitationPageElements.rsvpButton.href = `confirmacion.html?id=${rsvpUniqueId}`;
             }
 
@@ -133,18 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Lógica para la página de confirmación (confirmacion.html)
     if (confirmationPageElements.form) {
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwl4iiAUxuTYSTer_XiiTtPwf_DeA0lFiEP_zMVf1OWD1D2QF803to1n6Vh0z6qbzKy/exec';
+        // Este URL es el que tienes en tu implementación de Google Apps Script.
+        // Lo tomé de tu última captura de pantalla.
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxWNOCMNQKMub7aoawZf1-PijGC1tdAq2m6JEBUcNT5CONHkxIre1CtlKF-uy1HoD4z/exec';
         
         function sendAttendanceStatus(status, clickedButton) {
             if (!uniqueId) {
-                if (confirmationPageElements.responseMessage) {
-                    confirmationPageElements.responseMessage.textContent = "ID de invitado no encontrado. Por favor, use el enlace de su invitación.";
-                    confirmationPageElements.responseMessage.style.display = 'block';
-                    confirmationPageElements.responseMessage.classList.remove('success');
-                    confirmationPageElements.responseMessage.classList.add('error');
-                }
+                alert("ID de invitado no encontrado. Por favor, use el enlace de su invitación.");
                 return;
             }
 
@@ -164,47 +157,31 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
-                    if (confirmationPageElements.responseMessage) {
-                        confirmationPageElements.responseMessage.textContent = `¡Tu estado ha sido actualizado a: ${status === 'confirmed' ? 'Confirmado' : 'En Veremos'}!`;
-                        confirmationPageElements.responseMessage.style.display = 'block';
-                        confirmationPageElements.responseMessage.classList.remove('error');
-                        confirmationPageElements.responseMessage.classList.add('success');
-                        
-                        // Oculta los botones y el formulario después de la confirmación
+                    if (status === 'confirmed') {
+                        // El usuario ha confirmado, ahora se le pide que llene los nombres
+                        if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'block';
                         if (confirmationPageElements.extraButtonsSection) confirmationPageElements.extraButtonsSection.style.display = 'none';
+                        if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'none';
+                    } else if (status === 'maybe') {
+                        // El usuario no está seguro, se le muestra el mensaje final
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
-                        
-                        // Muestra el mensaje de éxito final
-                        if (confirmationPageElements.finalSuccessMessage) {
-                            confirmationPageElements.finalSuccessMessage.style.display = 'block';
-                            if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
-                        }
-                        
-                        // Establece el flag para que el botón de la invitación se bloquee
-                        localStorage.setItem('formSubmitted', 'true');
-                        
-                    } else {
-                        if (confirmationPageElements.responseMessage) {
-                            confirmationPageElements.responseMessage.textContent = 'Hubo un error al actualizar tu estado. Inténtalo de nuevo.';
-                            confirmationPageElements.responseMessage.style.display = 'block';
-                            confirmationPageElements.responseMessage.classList.remove('success');
-                            confirmationPageElements.responseMessage.classList.add('error');
-                        }
+                        if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'block';
+                        if (confirmationPageElements.guestCountInfo) confirmationPageElements.guestCountInfo.textContent = 'Gracias por avisarnos. Tu estado de asistencia está en "Veremos".';
+                        if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
+                        if (confirmationPageElements.finalSuccessMessage) confirmationPageElements.finalSuccessMessage.style.display = 'block';
                     }
-                    if (clickedButton) {
-                        clickedButton.disabled = false;
-                        clickedButton.textContent = status === 'confirmed' ? '100% Confirmado' : 'Estoy en Veremos';
-                    }
+                    localStorage.setItem('formSubmitted', 'true');
+                } else {
+                    alert('Hubo un error al actualizar tu estado. Inténtalo de nuevo.');
+                }
+                if (clickedButton) {
+                    clickedButton.disabled = false;
+                    clickedButton.textContent = status === 'confirmed' ? '100% Confirmado' : 'Estoy en Veremos';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                if (confirmationPageElements.responseMessage) {
-                    confirmationPageElements.responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión.';
-                    confirmationPageElements.responseMessage.style.display = 'block';
-                    confirmationPageElements.responseMessage.classList.remove('success');
-                    confirmationPageElements.responseMessage.classList.add('error');
-                }
+                alert('Hubo un error de conexión. Por favor, revisa tu conexión.');
                 if (clickedButton) {
                     clickedButton.disabled = false;
                     clickedButton.textContent = status === 'confirmed' ? '100% Confirmado' : 'Estoy en Veremos';
@@ -212,7 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Manejar el clic de los nuevos botones, ahora pasando el botón como argumento
         if (confirmationPageElements.confirmButtonExtra) {
             confirmationPageElements.confirmButtonExtra.addEventListener('click', () => {
                 sendAttendanceStatus('confirmed', confirmationPageElements.confirmButtonExtra);
@@ -224,15 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Cargar los datos del invitado al cargar la página
         if (uniqueId) {
             fetch(`${scriptUrl}?id=${uniqueId}`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        if (confirmationPageElements.guestCountInfo) confirmationPageElements.guestCountInfo.textContent = 'El enlace no es válido. Por favor, revisa el enlace de tu invitación.';
-                        if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
-                        if (confirmationPageElements.backToInviteBtn) confirmationPageElements.backToInviteBtn.style.display = 'block';
+                        alert("El enlace no es válido. Por favor, revisa el enlace de tu invitación.");
                         return;
                     }
 
@@ -241,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     if (status === 'confirmed') {
                         if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
-                        if (confirmationPageElements.messageContainer) confirmationPageElements.messageContainer.style.display = 'none';
                         if (confirmationPageElements.finalSuccessMessage) {
                              confirmationPageElements.finalSuccessMessage.style.display = 'block';
                         }
@@ -279,12 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
 
                             if (!allFilled) {
-                                if (confirmationPageElements.responseMessage) {
-                                    confirmationPageElements.responseMessage.textContent = 'Por favor, llena todos los campos de nombre.';
-                                    confirmationPageElements.responseMessage.style.display = 'block';
-                                    confirmationPageElements.responseMessage.classList.remove('success');
-                                    confirmationPageElements.responseMessage.classList.add('error');
-                                }
+                                alert('Por favor, llena todos los campos de nombre.');
                                 if (submitButton) {
                                     submitButton.disabled = false;
                                     submitButton.textContent = 'Confirmar Asistencia';
@@ -293,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
 
                             const formData = new FormData(confirmationPageElements.form);
-                            formData.append('numGuests', numGuests);
                             formData.append('ID_Unico', uniqueId);
                             formData.append('status', 'confirmed');
 
@@ -312,12 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     }
                                     localStorage.setItem('formSubmitted', 'true');
                                 } else {
-                                    if (confirmationPageElements.responseMessage) {
-                                        confirmationPageElements.responseMessage.textContent = 'Hubo un error al enviar los datos. Inténtalo de nuevo.';
-                                        confirmationPageElements.responseMessage.style.display = 'block';
-                                        confirmationPageElements.responseMessage.classList.remove('success');
-                                        confirmationPageElements.responseMessage.classList.add('error');
-                                    }
+                                    alert('Hubo un error al enviar los datos. Inténtalo de nuevo.');
                                 }
                                 if (submitButton) {
                                     submitButton.disabled = false;
@@ -326,12 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                if (confirmationPageElements.responseMessage) {
-                                    confirmationPageElements.responseMessage.textContent = 'Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.';
-                                    confirmationPageElements.responseMessage.style.display = 'block';
-                                    confirmationPageElements.responseMessage.classList.remove('success');
-                                    confirmationPageElements.responseMessage.classList.add('error');
-                                }
+                                alert('Hubo un error de conexión. Por favor, revisa tu conexión o intenta más tarde.');
                                 if (submitButton) {
                                     submitButton.disabled = false;
                                     submitButton.textContent = 'Confirmar Asistencia';
@@ -342,9 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(error => {
                     console.error('Error al obtener datos del invitado:', error);
-                    if (confirmationPageElements.guestCountInfo) {
-                        confirmationPageElements.guestCountInfo.textContent = 'Error al cargar los datos. Por favor, inténtalo de nuevo.';
-                    }
+                    alert('Error al cargar los datos. Por favor, inténtalo de nuevo.');
                     if (confirmationPageElements.formContainer) confirmationPageElements.formContainer.style.display = 'none';
                 });
         }
