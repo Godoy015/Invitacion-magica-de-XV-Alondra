@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lógica para la página de confirmación (confirmacion.html)
     if (confirmationPageElements.form) {
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzus5XwYqNpaQvJ8WwGx516YwMtHWukZ61UNT6UgUv1ZitfxAMeYAyLVyoNlwcRyWoH/exec';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwl4iiAUxuTYSTer_XiiTtPwf_DeA0lFiEP_zMVf1OWD1D2QF803to1n6Vh0z6qbzKy/exec';
         
         // Función para enviar el estado de asistencia, ahora acepta el botón presionado
         function sendAttendanceStatus(status, clickedButton) {
