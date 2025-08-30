@@ -340,28 +340,24 @@ input[type="number"] {
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
-    color: #8cb921; /* Se ajusta el color del nombre a un tono morado */
+    color: #8cb921; 
     display: block;
     text-align: center;
     line-height: 1.2;
 }
-/* Estilo para el botón cuando ya se registró el invitado */
 .rsvp-button.disabled-button {
-    background-color: #e7890e; /* Un gris más neutro */
-    color: #ffffff; /* Texto más claro */
-    opacity: 1; /* Lo hace un poco opaco */
-    cursor: not-allowed; /* Cambia el cursor para mostrar que no se puede hacer clic */
-    box-shadow: none; /* Elimina la sombra para que se vea plano */
+    background-color: #e7890e; 
+    color: #ffffff; 
+    opacity: 1; 
+    cursor: not-allowed; 
+    box-shadow: none; 
 }
-
-/* Opcional: Si quieres un efecto al pasar el mouse */
 .rsvp-button.disabled-button:hover {
-    background-color: #7c3d3d; /* Mantiene el mismo color al pasar el mouse */
-    transform: none; /* No se mueve ni se agranda */
-    box-shadow: none; /* No tiene sombra */
+    background-color: #7c3d3d; 
+    transform: none; 
+    box-shadow: none; 
 }
 
-/* Si tienes un estilo para el botón cuando el registro ha expirado, puedes usar el mismo */
 .rsvp-button:disabled {
     background-color: #7d7d7d;
     color: #c0c0c0;
