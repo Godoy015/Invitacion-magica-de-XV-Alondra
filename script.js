@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundMusic = document.getElementById('background-music');
 
     const invitationText = {
-    title: "ESTAS CORDIALMENTE INVITADO/A",
-    content: "Acompáñanos a celebrar los XV Años de:<br>Alondra Torres Godoy<br>en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-    details: "Fecha: [Fecha]<br>Hora: [Hora]<br>Lugar: [Lugar]<br>¡Se requiere varita!"
-};
+        title: "ESTAS CORDIALMENTE INVITADO/A",
+        content: "Acompáñanos a celebrar los Quince Años de Alondra Torres Godoy en una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+        details: "Fecha: Harry Potter \nHora: [Hora]\nLugar: [Lugar]\n¡Se requiere varita!"
+    };
 
     const partyDate = new Date("November 22, 2025 23:59:59").getTime();
     const deadlineDate = new Date("November 20, 2025 23:59:59").getTime();
@@ -63,14 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 invitationCard.classList.add('visible');
                 typewriterEffect(invitationTitle, invitationText.title, 0, () => {
-                    invitationContent.innerHTML = invitationText.content;
-                    invitationContent.style.opacity = 1;
-                    
-                    invitationDetails.innerHTML = invitationText.details;
-                    invitationDetails.style.opacity = 1;
-                    
-                    startCountdown();
-                    rsvpButton.classList.add('visible-button');
+                    typewriterEffect(invitationContent, invitationText.content, 0, () => {
+                        typewriterEffect(invitationDetails, invitationText.details, 0, () => {
+                            startCountdown();
+                            rsvpButton.classList.add('visible-button');
+                        });
+                    });
                 });
             }, 1000);
         }, { once: true });
@@ -78,17 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function typewriterEffect(element, text, i, callback) {
         if (i < text.length) {
-            element.innerHTML += text.charAt(i);
+            element.textContent += text.charAt(i);
             element.style.opacity = 1;
             setTimeout(() => typewriterEffect(element, text, i + 1, callback), 50);
         } else {
-            element.innerHTML = text; 
             if (callback) {
                 callback();
             }
         }
     }
     
+    // CAMBIO CRUCIAL: El botón de RSVP ahora lee el parámetro de la URL
+    // Esto asegura que el botón envíe a la confirmación con el número correcto de invitados.
     if (rsvpButton) {
         rsvpButton.addEventListener('click', () => {
             if (!rsvpButton.disabled) {
@@ -97,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 localStorage.setItem('invitationViewed', 'true');
                 
+                // Redirigimos a la página de confirmación con el número de invitados de la URL
                 window.location.href = `confirmacion.html?invitados=${numGuestsFromUrl}`;
             }
         });
@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalSuccessMessage = document.getElementById('finalSuccessMessage');
     const guestCountInfo = document.getElementById('guest-count-info');
     const backToInviteBtn = document.getElementById('backToInviteBtn');
+    const clearStorageBtn = document.getElementById('clearStorageBtn');
 
     if (form) {
         const numGuests = parseInt(numGuestsFromUrl);
@@ -136,20 +137,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formContainer) formContainer.style.display = 'none';
         } else {
             if (guestCountInfo) {
-                guestCountInfo.textContent = `Tienes ${numGuests} pase(s) de entrada. Por favor, registra el/los nombre(s):`;
+                guestCountInfo.textContent = `Tienes ${numGuests} pase(s) para esta celebración. Por favor, registra el/los nombre(s):`;
             }
             generateGuestFields(numGuests);
             
+            // --- CÓDIGO TEMPORALMENTE DESACTIVADO PARA PRUEBAS ---
+            /*
+            // Lógica para bloquear futuros envíos.
             if (localStorage.getItem('formSubmitted') === 'true') {
                 if (formContainer) formContainer.style.display = 'none';
                 if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-                // Asegurarse de que el botón de regresar no se muestre si ya se ha enviado
-                if (backToInviteBtn) backToInviteBtn.style.display = 'none'; 
             }
+            */
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
+                // Deshabilitar el botón y mostrar un mensaje de carga
                 const submitButton = form.querySelector('button[type="submit"]');
                 if (submitButton) {
                     submitButton.disabled = true;
@@ -175,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         responseMessage.classList.add('error');
                         responseMessage.style.display = 'block';
                     }
+                    // Volver a habilitar el botón en caso de error de validación
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = 'Confirmar Asistencia';
@@ -198,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             finalSuccessMessage.style.display = 'block';
                             if (backToInviteBtn) backToInviteBtn.style.display = 'block';
                         }
+                        // Esta línea es CRUCIAL para bloquear futuros envíos.
                         localStorage.setItem('formSubmitted', 'true');
                         if (responseMessage) {
                             responseMessage.textContent = '¡Asistencia(s) confirmada(s) exitosamente! Gracias por tu respuesta.';
@@ -210,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             responseMessage.style.display = 'block';
                         }
                     }
+                    // En ambos casos (éxito o error), volver a habilitar el botón
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = 'Confirmar Asistencia';
@@ -222,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         responseMessage.classList.add('error');
                         responseMessage.style.display = 'block';
                     }
+                    // En caso de error de conexión, volver a habilitar el botón
                     if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = 'Confirmar Asistencia';
@@ -233,12 +241,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (backToInviteBtn) {
         backToInviteBtn.addEventListener('click', () => {
-            history.back();
+            window.location.href = './invitacion.html';
         });
     }
 
-    // El botón de borrar datos se ha eliminado del HTML para que no aparezca.
-    // Su funcionalidad ya no existe.
+    // Botón para borrar el registro de envíos para pruebas
+    if (clearStorageBtn) {
+        clearStorageBtn.addEventListener('click', () => {
+            localStorage.removeItem('formSubmitted');
+            alert('El registro de envío ha sido borrado. Ahora puedes volver a enviar el formulario.');
+            location.reload();
+        });
+    }
 
     function generateGuestFields(num) {
         if (!guestFieldsContainer) return;
