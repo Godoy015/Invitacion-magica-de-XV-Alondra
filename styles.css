@@ -333,6 +333,8 @@ input[type="number"] {
 .attendance-table tr:last-child td {
     border-bottom: none;
 }
+
+/* ESTILO DEL NOMBRE DE ALONDRA PARA QUE SE VEA COMO EN LA IMAGEN */
 #alondra-name {
     font-size: 2em;
     font-weight: bold;
