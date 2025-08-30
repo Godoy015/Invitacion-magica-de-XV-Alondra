@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundMusic = document.getElementById('background-music');
 
     const invitationText = {
-        title: "ESTAS CORDIALMENTE INVITADO/A",
-        content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>En una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
-        details: "Fecha: 27 de Diciembre del 2025 <br>Hora: A partir de las 18 Hrs<br>Lugar: Jardín de Eventos "Manzano" <br> https://maps.app.goo.gl/pzq88P254Us6VpDaA"
-    };
+    title: "ESTAS CORDIALMENTE INVITADO/A",
+    content: "Acompáñanos a celebrar los XV Años de:<br><span id='alondra-name'>Alondra Torres Godoy</span><br>En una noche de magia y encanto, donde el Gran Comedor de Hogwarts será nuestro telón de fondo.",
+    details: "Fecha: 27 de Diciembre del 2025 <br>Hora: A partir de las 18 Hrs<br>Lugar: Jardín de Eventos 'Manzano' <a href='https://maps.app.goo.gl/pzq88P254Us6VpDaA' target='_blank'>Jardín de Eventos 'Manzano'</a>"
+};
 
     const partyDate = new Date("December 27, 2025 23:59:59").getTime();
     const deadlineDate = new Date("November 30, 2025 23:59:59").getTime();
