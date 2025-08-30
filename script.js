@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Lógica para el formulario de confirmación
+    // Solo se ejecuta en la página de confirmación
     const urlParams = new URLSearchParams(window.location.search);
     const numGuestsFromUrl = urlParams.get('invitados');
     
@@ -127,22 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (form) {
         const numGuests = parseInt(numGuestsFromUrl);
 
+        // Oculta todos los mensajes al inicio
+        if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'none';
+        if (finalSuccessMessage) finalSuccessMessage.style.display = 'none';
+        if (backToInviteBtn) backToInviteBtn.style.display = 'none';
+        if (formContainer) formContainer.style.display = 'block';
+
+        if (localStorage.getItem('formSubmitted') === 'true') {
+            if (formContainer) formContainer.style.display = 'none';
+            if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
+            if (backToInviteBtn) backToInviteBtn.style.display = 'block'; 
+            return;
+        }
+
         if (!numGuests || numGuests < 1 || numGuests > 6) {
             if (guestCountInfo) {
                 guestCountInfo.textContent = 'El enlace no es válido. Por favor, revisa el enlace de tu invitación.';
             }
             if (formContainer) formContainer.style.display = 'none';
+            if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'none';
         } else {
             if (guestCountInfo) {
                 guestCountInfo.textContent = `Tienes ${numGuests} pase(s) de entrada. Por favor, registra el/los nombre(s):`;
             }
             generateGuestFields(numGuests);
-            
-            if (localStorage.getItem('formSubmitted') === 'true') {
-                if (formContainer) formContainer.style.display = 'none';
-                if (alreadySubmittedMessage) alreadySubmittedMessage.style.display = 'block';
-                if (backToInviteBtn) backToInviteBtn.style.display = 'none'; 
-            }
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
